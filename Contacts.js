@@ -4,7 +4,7 @@ import ContactsApi from "./api/ContactsApi";
 import styles from "./theme/styles";
 
 const Contacts = () => {
-  const [contacts, setContacts] = useState(null);
+  const [contact, setContacts] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -15,20 +15,20 @@ const Contacts = () => {
     fetchData();
   }, []);
 
-  const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <Text style={styles.name}>{item.last_name}</Text>
-      <Text style={styles.city}>{item.q}</Text>
-    </View>
-  );
+  // const renderItem = ({ item }) => (
+  //   <View style={styles.itemContainer}>
+  //     {/* <Text style={styles.name}>{item.name}</Text> */}
+  //     <Text style={styles.city}>{item.mail}</Text>
+  //   </View>
+  // );
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={contacts}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-      ></FlatList>
+      {contact ? (
+        <Text style={styles.name}>{contact.first_name}</Text>
+      ) : (
+        <Text>No contact found.</Text>
+      )}
     </View>
   );
 };

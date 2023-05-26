@@ -7,8 +7,6 @@ const AddCompanies = () => {
   const [companies, setCompanies] = useState(null);
   const [newCompany, setNewCompany] = useState({
     name: "",
-    postal_code: "",
-    city: ""
   });
 
   useEffect(() => {
@@ -20,7 +18,7 @@ const AddCompanies = () => {
     fetchData();
   }, []);
 
-  
+
 
   const handleAddCompany = async () => {
     try {
@@ -31,7 +29,7 @@ const AddCompanies = () => {
       setCompanies([...companies, newCompany]);
 
       // Réinitialiser formulaire
-      setNewCompany({ name: "", postalCode: "", city: "" });
+      setNewCompany({ name: ""});
     } catch (error) {
       console.error("Erreur lors de l'ajout de l'entreprise :", error);
     }
@@ -45,21 +43,6 @@ const AddCompanies = () => {
       value={newCompany.name}
       onChangeText={(text) => setNewCompany({ ...newCompany, name: text })}
     />
-    <TextInput
-      style={styles.input}
-      placeholder="Code postal"
-      value={newCompany.postalCode}
-      onChangeText={(text) =>
-        setNewCompany({ ...newCompany, postalCode: text })
-      }
-    />
-    <TextInput
-      style={styles.input}
-      placeholder="Ville"
-      value={newCompany.city}
-      onChangeText={(text) => setNewCompany({ ...newCompany, city: text })}
-    />
-
     <Button title="Ajouter" onPress={handleAddCompany} />
   </View>
   );

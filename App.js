@@ -3,7 +3,7 @@ import Companies from "./Companies";
 import AddCompanies from "./AddCompanies";
 import { View } from "react-native";
 import styles from "./theme/styles";
-import { Contact } from "./api/ContactsApi";
+import Contacts from "./Contacts";
 import Pipelines from "./Pipelines";
 
 export default function App() {
@@ -11,7 +11,7 @@ export default function App() {
     <View style={styles.container}>
       <Companies />
       <AddCompanies />
-      {/* <Contact /> */}
+      <Contacts />
       {/* <Pipelines />  */}
     </View>
   );

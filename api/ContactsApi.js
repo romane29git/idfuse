@@ -2,29 +2,31 @@ const rootEndpoint =
   "https://app.idfuse.fr/api/crm/contact/search_email/?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78&q=neva.dupont@idfuse.fr";
 
 export class Contact {
-  constructor(last_name, first_name, q) {
-    this.last_name = last_name;
+  constructor(first_name, mail) {
     this.first_name = first_name;
-    this.q = q;
+    this.mail = mail;
   }
 }
 
 class ContactsApi {
   async fetchContacts() {
     const response = await this.fetchFromApi(rootEndpoint);
-    if (response && typeof response === "object") {
-      const contacts = response.contacts;
-      return this.createContacts(contacts);
+    if (
+      response &&
+      Array.isArray(response.items) &&
+      response.items.length > 0
+    ) {
+      const contactData = response.items[0];
+      return this.createContact(contactData);
     } else {
-      console.error("Invalid API response:", response);
-      return [];
+      console.error("No contact found or invalid API response:", response);
+      return null;
     }
   }
 
-  async findContactById(q) {
-    const contacts = await this.fetchFromApi(`${rootEndpoint}/${q}`);
-
-    return this.createContact(contacts[0]);
+  async findContactByEmail(email) {
+    const contact = await this.fetchFromApi(`${rootEndpoint}/${email}`);
+    return this.createContact(contact);
   }
 
   async fetchFromApi(query) {
@@ -38,22 +40,26 @@ class ContactsApi {
     }
   }
 
-  createContact(contact) {
-    return new Contact(
-      contact.last_name,
-      contact.first_name,
-      contact.q,
-    );
-  }
-
-  createContacts(contacts) {
-    if (!Array.isArray(contacts)) {
-      console.error("Invalid contacts data");
-      return [];
+  createContact(response) {
+    if (response && response.mail) {
+      const { mail } = response;
+      console.log(response);
+      return new Contact("", mail); // Mettez à jour les arguments du constructeur selon vos besoins
+    } else {
+      console.error("No contact found or invalid API response:", response);
+      return null;
     }
-
-    return contacts.map((contact) => this.createContact(contact));
   }
+
+
+  // createContacts(contacts) {
+  //   if (!Array.isArray(contacts)) {
+  //     console.error("Invalid contacts data");
+  //     return [];
+  //   }
+
+  //   return contacts.map((contact) => this.createContact(contact));
+  // }
 }
 
 export default new ContactsApi();
