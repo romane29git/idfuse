@@ -15,17 +15,10 @@ const Contacts = () => {
     fetchData();
   }, []);
 
-  // const renderItem = ({ item }) => (
-  //   <View style={styles.itemContainer}>
-  //     {/* <Text style={styles.name}>{item.name}</Text> */}
-  //     <Text style={styles.city}>{item.mail}</Text>
-  //   </View>
-  // );
-
   return (
     <View style={styles.container}>
       {contact ? (
-        <Text style={styles.name}>{contact.first_name}</Text>
+        <Text style={styles.name}>{contact.mail}</Text>
       ) : (
         <Text>No contact found.</Text>
       )}
