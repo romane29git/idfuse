@@ -1,7 +1,8 @@
-import { Text, View, FlatList, TextInput, Button } from "react-native";
+import { Text, View, FlatList, TextInput } from "react-native";
 import React, { useState, useEffect } from "react";
-import companiesApi from "./api/companiesApi";
-import styles from "./theme/styles";
+import companiesApi from "../api/companiesApi";
+import styles from "../theme/styles";
+import Button from "./Button";
 
 const AddCompanies = () => {
   const [companies, setCompanies] = useState(null);
@@ -43,7 +44,7 @@ const AddCompanies = () => {
       value={newCompany.name}
       onChangeText={(text) => setNewCompany({ ...newCompany, name: text })}
     />
-    <Button title="Ajouter" onPress={handleAddCompany} />
+    <Button mode="outlined" onPress={handleAddCompany}>Ajouter</Button>
   </View>
   );
 };

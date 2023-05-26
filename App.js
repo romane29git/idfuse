@@ -1,9 +1,8 @@
 import React from "react";
 import Header from "./components/Header";
-// import Companies from "./Companies";
-// import AddCompanies from "./AddCompanies";
-import { View, Button, Text } from "react-native";
-import { Card } from "react-native-elements";
+import Companies from "./components/Companies";
+import AddCompanies from "./components/AddCompanies";
+import { View, Text } from "react-native";
 import Dashboard from "./screens/Dashboard";
 import styles from "./theme/styles";
 // import Contacts from "./Contacts";
@@ -25,7 +24,12 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Header />
+
+      {/* <Companies />
+     <AddCompanies /> */}
+
       <Dashboard />
+
     </View>
 
     // page login
@@ -49,10 +53,6 @@ export default function App() {
     //   </NavigationContainer>
     // </Provider>
 
-    //liste entreprises
-    //     <View style={styles.container}>
-    //       <Companies />
-    //       <AddCompanies />
-    //     </View>
+   
   );
 }

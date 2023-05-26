@@ -1,7 +1,7 @@
 import { Text, View, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
-import ContactsApi from "./api/ContactsApi";
-import styles from "./theme/styles";
+import ContactsApi from "../api/ContactsApi";
+import styles from "../theme/styles";
 
 const Contacts = () => {
   const [contact, setContacts] = useState(null);

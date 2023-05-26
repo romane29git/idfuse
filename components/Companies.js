@@ -1,7 +1,7 @@
 import { Text, View, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
-import companiesApi from "./api/companiesApi";
-import styles from "./theme/styles";
+import companiesApi from "../api/companiesApi";
+import styles from "../theme/styles";
 
 const Companies = () => {
   const [companies, setCompanies] = useState(null);
@@ -26,6 +26,7 @@ const Companies = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Liste des entreprises</Text>
       <View style={styles.row}>
         <View style={styles.column}>
           <FlatList

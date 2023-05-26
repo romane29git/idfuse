@@ -8,12 +8,10 @@ import { Card } from "react-native-elements";
 import { View, Text, ScrollView } from "react-native";
 import styles from "../theme/styles";
 
-
 export default function Dashboard({ navigation }) {
   return (
-    <View style={styles.container} >
+    <View style={styles.container}>
       <ScrollView>
-        <Button mode="outlined">Logout</Button>
         <Card>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
@@ -24,8 +22,7 @@ export default function Dashboard({ navigation }) {
           <Card.Divider />
           <Card.Image source={require("../assets/splash.png")} />
           <Card.Divider />
-          <Button mode="outlined">Ok</Button>
-          <Button mode="outlined">Cancel</Button>
+          <Button mode="outlined">Modifier</Button>
         </Card>
 
         <Card>
@@ -49,7 +46,9 @@ export default function Dashboard({ navigation }) {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Card Title 3</Text>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+              Card Title 3
+            </Text>
             <Text style={{ fontSize: 14, color: "gray" }}>Card Subtitle</Text>
           </View>
           <Card.Divider />
@@ -64,7 +63,9 @@ export default function Dashboard({ navigation }) {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Card Title 4</Text>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+              Card Title 4
+            </Text>
             <Text style={{ fontSize: 14, color: "gray" }}>Card Subtitle</Text>
           </View>
           <Card.Divider />
@@ -75,6 +76,8 @@ export default function Dashboard({ navigation }) {
           <Button mode="outlined">Cancel</Button>
         </Card>
       </ScrollView>
+
+      {/* <Button mode="outlined">Logout</Button> */}
     </View>
   );
 }
