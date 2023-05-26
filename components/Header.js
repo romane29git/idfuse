@@ -1,17 +1,37 @@
-import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Text } from 'react-native-paper'
-import { theme } from '../core/theme'
+import React from "react";
+import { View, Text, Image, StyleSheet } from "react-native";
 
-export default function Header(props) {
-  return <Text style={styles.header} {...props} />
-}
+const Header = () => {
+  return (
+    <View style={styles.container}>
+      <Image
+        source={require("../assets/logo.png")}
+        style={styles.logo}
+        resizeMode="contain"
+      />
+      <Text style={styles.title}>Bienvenue sur notre application</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-  header: {
-    fontSize: 21,
-    color: theme.colors.primary,
-    fontWeight: 'bold',
-    paddingVertical: 12,
+  container: {
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
-})
+  logo: {
+    width: 150,
+    height: 150,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+});
+
+export default Header;
