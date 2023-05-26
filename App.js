@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import { View, Button, Text } from "react-native";
 import { Card } from "react-native-elements";
 import Dashboard from "./screens/Dashboard";
-// import styles from "./theme/styles";
+import styles from "./theme/styles";
 // import Contacts from "./Contacts";
 // import { Provider } from "react-native-paper";
 // import { NavigationContainer } from "@react-navigation/native";
@@ -23,11 +23,9 @@ import Dashboard from "./screens/Dashboard";
 
 export default function App() {
   return (
-    <View>
-      <Header/>
-      <Dashboard/>
-    
-    
+    <View style={styles.container}>
+      <Header />
+      <Dashboard />
     </View>
 
     // page login
