@@ -20,13 +20,13 @@ const RootTabNavigator = () => {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             if (route.name === "Home") {
-              iconName = focused ? "ios-podium" : "ios-podium-outline";
-            } else if (route.name === "Settings") {
-              iconName = focused ? "ios-people" : "ios-people-outline";
+              iconName = focused ? "home" : "home-outline";
             } else if (route.name === "Pipeline") {
-              iconName = focused ? "ios-person" : "ios-person-outline";
+              iconName = focused ? "calendar" : "calendar-outline";
             } else if (route.name === "Invoice") {
-              iconName = focused ? "ios-person" : "ios-person-outline";
+              iconName = focused ? "document" : "document-outline";
+            } else if (route.name === "Settings") {
+              iconName = focused ? "settings" : "settings-outline";
             }
 
             return <Ionicons name={iconName} size={size} color={color} />;
