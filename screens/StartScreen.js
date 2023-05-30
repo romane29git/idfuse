@@ -5,6 +5,7 @@ import Header from '../components/LoginHeader'
 import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 
+
 export default function StartScreen({ navigation }) {
   return (
     <Background>

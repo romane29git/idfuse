@@ -3,13 +3,17 @@ import { View, Button, Text } from "react-native";
 import styles from "./theme/styles";
 import RootTabNavigator from "./navigation/RootTabNavigator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import StartScreen from "./screens/StartScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import Dashboard from "./screens/Dashboard";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import { Provider } from "react-native-paper";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { theme } from "./core/theme";
 
-// import { Provider } from "react-native-paper";
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createStackNavigator } from "@react-navigation/stack";
-// import { theme } from "./core/theme";
-
-// const Stack = createStackNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
   const [accessToken, setAccessToken] = useState(null);
@@ -56,7 +60,7 @@ export default function App() {
   };
 
   // Fonction pour se connecter et obtenir le token depuis l'API
-  const login = async () => {
+  const logIn = async () => {
     try {
       // Effectuer une requête à l'API pour obtenir le token
       const response = await fetch(
@@ -95,37 +99,37 @@ export default function App() {
   }
 
   // fonction pour effectuer une requête authentifiée à l'API en utilisant le token --> pas nécessaire
-  const fetchData = async () => {
-    try {
-      const storedAccessToken = await AsyncStorage.getItem("accessToken");
+  // const fetchData = async () => {
+  //   try {
+  //     const storedAccessToken = await AsyncStorage.getItem("accessToken");
 
-      if (storedAccessToken) {
-        const response = await fetch(
-          "https://app.idfuse.fr/api/sso?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78&sso_user=democlients",
-          {
-            headers: {
-              Authorization: `Bearer ${storedAccessToken}`,
-            },
-          }
-        );
+  //     if (storedAccessToken) {
+  //       const response = await fetch(
+  //         "https://app.idfuse.fr/api/sso?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78&sso_user=democlients",
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${storedAccessToken}`,
+  //           },
+  //         }
+  //       );
 
-        const data = await response.json();
+  //       const data = await response.json();
 
-        console.log("Données récupérées :", data);
-      } else {
-        console.log("Aucun token trouvé. L'utilisateur n'est pas connecté.");
-      }
-    } catch (error) {
-      console.log("Erreur lors de la récupération des données :", error);
-    }
-  };
+  //       console.log("Données récupérées :", data);
+  //     } else {
+  //       console.log("Aucun token trouvé. L'utilisateur n'est pas connecté.");
+  //     }
+  //   } catch (error) {
+  //     console.log("Erreur lors de la récupération des données :", error);
+  //   }
+  // };
 
   // L'utilisateur est connecté, afficher la page d'accueil
   if (accessToken) {
     return (
       <View style={styles.container}>
         <RootTabNavigator />
-        <Button title="Déconnexin" onPress={removeAccessToken} />
+        <Button title="Déconnexion" onPress={removeAccessToken} />
       </View>
     );
   } else {
@@ -133,37 +137,35 @@ export default function App() {
     return (
       <View style={styles.container}>
         <Text>Veuillez vous connecter :</Text>
-        <Button title="Se connecter" onPress={login} />
+        <Button title="Se connecter" onPress={logIn} />
+
+        {/* ------------------------------------------------- */}
+
+        <Provider theme={theme}>
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName="StartScreen"
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen name="StartScreen" component={StartScreen} />
+              <Stack.Screen name="LoginScreen" component={LoginScreen} />
+              <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+              <Stack.Screen name="Dashboard" component={Dashboard} />
+              <Stack.Screen
+                name="ResetPasswordScreen"
+                component={ResetPasswordScreen}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Provider>
       </View>
     );
   }
 
-  //
+  // <View style={styles.container}>
+  //   <Header />
 
-  //   // <View style={styles.container}>
-  //   //   <Header />
-
-  //   //page login
-  //   // <Provider theme={theme}>
-  //   //   <NavigationContainer>
-  //   //     <Stack.Navigator
-  //   //       initialRouteName="StartScreen"
-  //   //       screenOptions={{
-  //   //         headerShown: false,
-  //   //       }}
-  //   //     >
-  //   //       <Stack.Screen name="StartScreen" component={StartScreen} />
-  //   //       <Stack.Screen name="LoginScreen" component={LoginScreen} />
-  //   //       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-  //   //       <Stack.Screen name="Dashboard" component={Dashboard} />
-  //   //       <Stack.Screen
-  //   //         name="ResetPasswordScreen"
-  //   //         component={ResetPasswordScreen}
-  //   //       />
-  //   //     </Stack.Navigator>
-  //   //   </NavigationContainer>
-  //   // </Provider>
-
-  //   // </View>
-  // );
+  // </View>
 }
