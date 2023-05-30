@@ -5,6 +5,7 @@ import AddCompanies from "./components/AddCompanies";
 import { View, Text } from "react-native";
 import Dashboard from "./screens/Dashboard";
 import styles from "./theme/styles";
+import RootTabNavigator from "./navigation/RootTabNavigator";
 // import Contacts from "./Contacts";
 // import { Provider } from "react-native-paper";
 // import { NavigationContainer } from "@react-navigation/native";
@@ -22,15 +23,16 @@ import styles from "./theme/styles";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Header />
+    <RootTabNavigator />
+    // <View style={styles.container}>
+    //   <Header />
 
-      {/* <Companies />
-     <AddCompanies /> */}
+    //   {/* <Companies />
+    //  <AddCompanies /> */}
 
-      <Dashboard />
+    //   {/* <Dashboard /> */}
 
-    </View>
+    // </View>
 
     // page login
     // <Provider theme={theme}>
