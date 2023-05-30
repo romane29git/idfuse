@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
@@ -8,93 +8,152 @@ import Button from "../components/Button";
 import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
-import { emailValidator } from "../helpers/emailValidator";
-import { passwordValidator } from "../helpers/passwordValidator";
-import { login } from "../api/loginApi";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import RootTabNavigator from "../navigation/RootTabNavigator";
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState({ value: "", error: "" });
-  const [password, setPassword] = useState({ value: "", error: "" });
+  const [accessToken, setAccessToken] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const onLoginPressed = () => {
-    const emailError = emailValidator(email.value);
-    const passwordError = passwordValidator(password.value);
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError });
-      setPassword({ ...password, error: passwordError });
-      return;
-    }
+  // Fonction pour vérifier si l'utilisateur est connecté au chargement de l'application
+  useEffect(() => {
+    checkAccessToken();
+  }, []);
 
-    fetch(
-      "https://app.idfuse.fr/api/sso?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78&sso_user=democlients",
-      {
-        method: "GET",
-        // headers: {
-        //   'Content-Type': 'application/json',
-        // },
-        params: JSON.stringify({
-          email: email.value,
-          password: password.value,
-        }),
+  // Fonction pour vérifier si l'utilisateur a un token dans le stockage local
+  const checkAccessToken = async () => {
+    try {
+      const storedAccessToken = await AsyncStorage.getItem("accessToken");
+
+      if (storedAccessToken) {
+        setAccessToken(storedAccessToken);
       }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // Effectuer les actions nécessaires après la connexion réussie
-        // (par exemple, enregistrer le jeton d'authentification, rediriger vers une autre page, etc.)
-      })
-      .catch((error) => {
-        // Gestion des erreurs de l'API
-        console.error(error);
-        // Afficher un message d'erreur approprié à l'utilisateur
-      });
+    } catch (error) {
+      console.log("Erreur lors de la vérification du token :", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return (
-    <Background>
-      <BackButton goBack={navigation.goBack} />
-      <Logo />
-      <Header>Welcome back.</Header>
-      <TextInput
-        label="Email"
-        returnKeyType="next"
-        value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: "" })}
-        error={!!email.error}
-        errorText={email.error}
-        autoCapitalize="none"
-        autoCompleteType="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
-      />
-      <TextInput
-        label="Password"
-        returnKeyType="done"
-        value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: "" })}
-        error={!!password.error}
-        errorText={password.error}
-        secureTextEntry
-      />
-      <View style={styles.forgotPassword}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("ResetPasswordScreen")}
-        >
-          <Text style={styles.forgot}>Forgot your password?</Text>
-        </TouchableOpacity>
+  // Fonction pour stocker le token dans le stockage local
+  const storeAccessToken = async (token) => {
+    try {
+      await AsyncStorage.setItem("accessToken", token);
+      setAccessToken(token);
+    } catch (error) {
+      console.log("Erreur de stockage du token :", error);
+    }
+  };
+
+  // Fonction pour supprimer le token du stockage local
+  const removeAccessToken = async () => {
+    try {
+      await AsyncStorage.removeItem("accessToken");
+      setAccessToken(null);
+    } catch (error) {
+      console.log("Erreur lors de la suppression du token :", error);
+    }
+  };
+
+  // Fonction pour se connecter et obtenir le token depuis l'API
+  const login = async () => {
+    try {
+      // Effectuer une requête à l'API pour obtenir le token
+      const response = await fetch(
+        "https://app.idfuse.fr/api/sso?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78&sso_user=democlients",
+        {
+          method: "GET",
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success === 1) {
+        const accessToken = data.sso_token;
+        storeAccessToken(accessToken);
+        console.log("Connexion réussie");
+      } else {
+        console.log("Échec de la connexion :", data.result_message);
+      }
+    } catch (error) {
+      console.log("Erreur lors de la connexion :", error);
+    }
+  };
+
+  // // Fonction pour effectuer une action lorsque l'utilisateur est connecté
+  // const performActionWhenLoggedIn = () => {
+  //   // Effectuer l'action souhaitée lorsque l'utilisateur est connecté
+  //   console.log("Utilisateur connecté. Effectuer l'action souhaitée ici.");
+  // };
+
+  if (isLoading) {
+    // Afficher un indicateur de chargement pendant la vérification du jeton d'accès
+    return (
+      <View style={styles.container}>
+        <Text>Chargement...</Text>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
-        Login
-      </Button>
-      <View style={styles.row}>
-        <Text>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.replace("RegisterScreen")}>
-          <Text style={styles.link}>Sign up</Text>
-        </TouchableOpacity>
+    );
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+
+  if (accessToken) {
+    return (
+      <View style={styles.container}>
+        <RootTabNavigator />
+        <Button title="Déconnexion" onPress={removeAccessToken} />
       </View>
-    </Background>
-  );
+    );
+  } else {
+    // L'utilisateur n'est pas connecté, afficher l'interface de connexion
+    return (
+      <Background>
+        <BackButton goBack={() => navigation.goBack()} />{" "}
+        {/* Use navigation prop to navigate back */} <Logo />
+        <Header>Welcome back.</Header>
+        <TextInput
+          label="Email"
+          // returnKeyType="next"
+          // value={email.value}
+          // onChangeText={(text) => setEmail({ value: text, error: "" })}
+          // error={!!email.error}
+          // errorText={email.error}
+          // autoCapitalize="none"
+          // autoCompleteType="email"
+          // textContentType="emailAddress"
+          // keyboardType="email-address"
+        />
+        <TextInput
+          label="Password"
+          // returnKeyType="done"
+          // value={password.value}
+          // onChangeText={(text) => setPassword({ value: text, error: "" })}
+          // error={!!password.error}
+          // errorText={password.error}
+          // secureTextEntry
+        />
+        <View style={styles.forgotPassword}>
+          <Text
+            style={styles.forgot}
+            onPress={() => navigation.navigate("ResetPasswordScreen")}
+          >
+            Forgot your password?
+          </Text>
+        </View>
+        <Button mode="contained" onPress={login}>
+          <Text>Login</Text>
+        </Button>
+        <View style={styles.row}>
+          <Text>Don’t have an account? </Text>
+          <TouchableOpacity
+            onPress={() => navigation.replace("RegisterScreen")}
+          >
+            <Text style={styles.link}>Sign up</Text>
+          </TouchableOpacity>
+        </View>
+      </Background>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

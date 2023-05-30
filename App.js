@@ -60,7 +60,7 @@ export default function App() {
   };
 
   // Fonction pour se connecter et obtenir le token depuis l'API
-  const logIn = async () => {
+  const login = async () => {
     try {
       // Effectuer une requête à l'API pour obtenir le token
       const response = await fetch(
@@ -84,10 +84,10 @@ export default function App() {
   };
 
   // Fonction pour effectuer une action lorsque l'utilisateur est connecté
-  const performActionWhenLoggedIn = () => {
-    // Effectuer l'action souhaitée lorsque l'utilisateur est connecté
-    console.log("Utilisateur connecté. Effectuer l'action souhaitée ici.");
-  };
+  // const performActionWhenLoggedIn = () => {
+  //   // Effectuer l'action souhaitée lorsque l'utilisateur est connecté
+  //   console.log("Utilisateur connecté. Effectuer l'action souhaitée ici.");
+  // };
 
   if (isLoading) {
     // Afficher un indicateur de chargement pendant la vérification du jeton d'accès
@@ -137,29 +137,8 @@ export default function App() {
     return (
       <View style={styles.container}>
         <Text>Veuillez vous connecter :</Text>
-        <Button title="Se connecter" onPress={logIn} />
-
-        {/* ------------------------------------------------- */}
-
-        <Provider theme={theme}>
-          <NavigationContainer>
-            <Stack.Navigator
-              initialRouteName="StartScreen"
-              screenOptions={{
-                headerShown: false,
-              }}
-            >
-              <Stack.Screen name="StartScreen" component={StartScreen} />
-              <Stack.Screen name="LoginScreen" component={LoginScreen} />
-              <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-              <Stack.Screen name="Dashboard" component={Dashboard} />
-              <Stack.Screen
-                name="ResetPasswordScreen"
-                component={ResetPasswordScreen}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </Provider>
+        <Button title="Se connecter" onPress={login} />
+        <LoginScreen />
       </View>
     );
   }
