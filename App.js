@@ -3,17 +3,8 @@ import { View, Button, Text } from "react-native";
 import styles from "./theme/styles";
 import RootTabNavigator from "./navigation/RootTabNavigator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import StartScreen from "./screens/StartScreen";
+import Header from "./components/Header";
 import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import Dashboard from "./screens/Dashboard";
-import ResetPasswordScreen from "./screens/ResetPasswordScreen";
-import { Provider } from "react-native-paper";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { theme } from "./core/theme";
-
-const Stack = createStackNavigator();
 
 export default function App() {
   const [accessToken, setAccessToken] = useState(null);
@@ -133,18 +124,11 @@ export default function App() {
       </View>
     );
   } else {
-    // L'utilisateur n'est pas connecté, afficher l'interface de connexion
     return (
       <View style={styles.container}>
-        <Text>Veuillez vous connecter :</Text>
         <Button title="Se connecter" onPress={login} />
         {/* <LoginScreen /> */}
       </View>
     );
   }
-
-  // <View style={styles.container}>
-  //   <Header />
-
-  // </View>
 }

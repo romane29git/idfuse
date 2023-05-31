@@ -35,7 +35,7 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  // Fonction pour stocker le token dans le stockage local
+  // Fonction pour stocker le token dans le stockage local (connexion)
   const storeAccessToken = async (token) => {
     try {
       await AsyncStorage.setItem("accessToken", token);
@@ -45,7 +45,7 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  // Fonction pour supprimer le token du stockage local
+  // Fonction pour supprimer le token du stockage local (déconnexion)
   const removeAccessToken = async () => {
     try {
       await AsyncStorage.removeItem("accessToken");
@@ -87,7 +87,7 @@ export default function LoginScreen({ navigation }) {
   // };
 
   if (isLoading) {
-    // Afficher un indicateur de chargement pendant la vérification du jeton d'accès
+    // Afficher un indicateur de chargement pendant la vérification du token
     return (
       <View style={styles.container}>
         <Text>Chargement...</Text>
@@ -97,19 +97,12 @@ export default function LoginScreen({ navigation }) {
 
   //--------------------------------------------------------------------------------------------------------------------
 
-  if (accessToken) {
-    return (
-      <View style={styles.container}>
-        <RootTabNavigator />
-        <Button title="Déconnexion" onPress={removeAccessToken} />
-      </View>
-    );
-  } else {
+  if (!accessToken) {
     // L'utilisateur n'est pas connecté, afficher l'interface de connexion
     return (
       <Background>
-        <BackButton goBack={() => navigation.goBack()} />{" "}
-        {/* Use navigation prop to navigate back */} <Logo />
+        <BackButton goBack={() => navigation.goBack()} />
+        <Logo />
         <Header>Welcome back.</Header>
         <TextInput
           label="Email"
