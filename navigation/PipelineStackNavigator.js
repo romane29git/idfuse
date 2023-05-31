@@ -12,9 +12,9 @@ const PipelineStackNavigator = () => {
       screenOptions={screenOptions}
     >
       <PipelineStack.Screen
-        name="Login"
+        name="Companies"
         component={Companies}
-        options={{ title: "Login" }}
+        options={{ title: "Companies" }}
       />
     </PipelineStack.Navigator>
   );
