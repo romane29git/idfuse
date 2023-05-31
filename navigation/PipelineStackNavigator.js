@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { screenOptions } from "../theme/styles";
-import LoginScreen from "../screens/LoginScreen";
+import Companies from "../components/Companies";
 
 const PipelineStack = createNativeStackNavigator();
 
@@ -13,7 +13,7 @@ const PipelineStackNavigator = () => {
     >
       <PipelineStack.Screen
         name="Login"
-        component={LoginScreen}
+        component={Companies}
         options={{ title: "Login" }}
       />
     </PipelineStack.Navigator>
