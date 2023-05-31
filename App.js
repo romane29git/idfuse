@@ -138,7 +138,7 @@ export default function App() {
       <View style={styles.container}>
         <Text>Veuillez vous connecter :</Text>
         <Button title="Se connecter" onPress={login} />
-        <LoginScreen />
+        {/* <LoginScreen /> */}
       </View>
     );
   }
