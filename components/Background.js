@@ -5,7 +5,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { theme } from "../core/theme";
-import { Text } from 'react-native-paper';
+import { Text } from "react-native-paper";
 
 export default function Background({ children }) {
   return (
@@ -20,7 +20,6 @@ export default function Background({ children }) {
     </ImageBackground>
   );
 }
-
 const styles = StyleSheet.create({
   background: {
     flex: 1,
