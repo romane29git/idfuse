@@ -1,9 +1,9 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import { screenOptions } from "../theme/styles";
 import Companies from "../components/Companies";
 
-const SettingsStack = createNativeStackNavigator();
+const SettingsStack = createStackNavigator();
 
 const SettingsStackNavigator = () => {
   return (

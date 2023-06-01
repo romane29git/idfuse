@@ -9,11 +9,12 @@ import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import App from "../App";
+import RootTabNavigator from "../navigation/RootTabNavigator";
 
 export default function LoginScreen({ navigation }) {
   const [accessToken, setAccessToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Fonction pour vérifier si l'utilisateur est connecté au chargement de l'application
   useEffect(() => {
@@ -71,6 +72,7 @@ export default function LoginScreen({ navigation }) {
       if (data.success === 1) {
         const accessToken = data.sso_token;
         storeAccessToken(accessToken);
+        setIsLoggedIn(true);
         console.log("Connexion réussie");
       } else {
         console.log("Échec de la connexion :", data.result_message);
@@ -97,7 +99,9 @@ export default function LoginScreen({ navigation }) {
 
   //--------------------------------------------------------------------------------------------------------------------
 
-  if (!accessToken) {
+  if (isLoggedIn) {
+    return <RootTabNavigator />;
+  } else {
     // L'utilisateur n'est pas connecté, afficher l'interface de connexion
     return (
       <Background>
@@ -145,11 +149,6 @@ export default function LoginScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </Background>
-    );
-  }
-   else {
-    return (
-      <App/>
     );
   }
 }

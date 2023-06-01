@@ -1,9 +1,9 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import { screenOptions } from "../theme/styles";
 import Contacts from "../components/Contacts";
 
-const InvoiceStack = createNativeStackNavigator();
+const InvoiceStack = createStackNavigator();
 
 const InvoiceStackNavigator = () => {
   return (

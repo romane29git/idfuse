@@ -7,10 +7,10 @@ import StartScreen from "./screens/StartScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
   const [accessToken, setAccessToken] = useState(null);
@@ -27,7 +27,7 @@ export default function App() {
       const storedAccessToken = await AsyncStorage.getItem("accessToken");
 
       if (storedAccessToken) {
-        setAccessToken(storedAccessToken);
+        // setAccessToken(storedAccessToken);
       }
     } catch (error) {
       console.log("Erreur lors de la vérification du token :", error);
