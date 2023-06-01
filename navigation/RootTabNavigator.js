@@ -2,10 +2,10 @@ import React from "react";
 import { StatusBar } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeStackNavigator from "./HomeStackNavigator";
-import PipelineStackNavigator from "./PipelineStackNavigator";
-import InvoiceStackNavigator from "./InvoiceStackNavigator";
-import SettingsStackNavigator from "./SettingsStackNavigator";
+import TodayStackNavigator from "./TodayStackNavigator";
+import DevisStackNavigator from "./DevisStackNavigator";
+import ActiStackNavigator from "./ActiStackNavigator";
+import ContactsStackNavigator from "./ContactsStackNavigator";
 
 
 const Tab = createBottomTabNavigator();
@@ -18,14 +18,14 @@ const RootTabNavigator = () => {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-            if (route.name === "Home") {
-              iconName = focused ? "home" : "home-outline";
-            } else if (route.name === "Pipeline") {
-              iconName = focused ? "calendar" : "calendar-outline";
-            } else if (route.name === "Invoice") {
+            if (route.name === "Today") {
+              iconName = focused ? "today" : "today-outline";
+            } else if (route.name === "Devis") {
               iconName = focused ? "document" : "document-outline";
-            } else if (route.name === "Settings") {
-              iconName = focused ? "settings" : "settings-outline";
+            } else if (route.name === "Activités") {
+              iconName = focused ? "business" : "business-outline";
+            } else if (route.name === "Contacts") {
+              iconName = focused ? "call" : "call-outline";
             }
 
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -35,10 +35,10 @@ const RootTabNavigator = () => {
           headerShown: false,
         })}
       >
-        <Tab.Screen name="Home" component={HomeStackNavigator} />
-        <Tab.Screen name="Pipeline" component={PipelineStackNavigator} />
-        <Tab.Screen name="Invoice" component={InvoiceStackNavigator} />
-        <Tab.Screen name="Settings" component={SettingsStackNavigator} />
+        <Tab.Screen name="Today" component={TodayStackNavigator} />
+        <Tab.Screen name="Devis" component={DevisStackNavigator} />
+        <Tab.Screen name="Activités" component={ActiStackNavigator} />
+        <Tab.Screen name="Contacts" component={ContactsStackNavigator} />
       </Tab.Navigator>
     </>
   );

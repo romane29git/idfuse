@@ -3,21 +3,21 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { screenOptions } from "../theme/styles";
 import Companies from "../components/Companies";
 
-const SettingsStack = createStackNavigator();
+const ContactsStack = createStackNavigator();
 
-const SettingsStackNavigator = () => {
+const ContactsStackNavigator = () => {
   return (
-    <SettingsStack.Navigator
-      initialRouteName="Settings"
+    <ContactsStack.Navigator
+      initialRouteName="Contacts"
       screenOptions={screenOptions}
     >
-      <SettingsStack.Screen
+      <ContactsStack.Screen
         name="Companies"
         component={Companies}
         options={{ title: "Companies" }}
       />
-    </SettingsStack.Navigator>
+    </ContactsStack.Navigator>
   );
 };
 
-export default SettingsStackNavigator;
+export default ContactsStackNavigator;

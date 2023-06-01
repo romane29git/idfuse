@@ -3,18 +3,18 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { screenOptions } from "../theme/styles";
 import Dashboard from "../screens/Dashboard";
 
-const HomeStack = createStackNavigator();
+const TodayStack = createStackNavigator();
 
-const HomeStackNavigator = () => {
+const TodayStackNavigator = () => {
   return (
-    <HomeStack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
-      <HomeStack.Screen
+    <TodayStack.Navigator initialRouteName="Today" screenOptions={screenOptions}>
+      <TodayStack.Screen
         name="Dashboard"
         component={Dashboard}
         options={{ title: "Dashboard" }}
       />
-    </HomeStack.Navigator>
+    </TodayStack.Navigator>
   );
 };
 
-export default HomeStackNavigator;
+export default TodayStackNavigator;

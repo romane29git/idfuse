@@ -3,21 +3,21 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { screenOptions } from "../theme/styles";
 import Contacts from "../components/Contacts";
 
-const InvoiceStack = createStackNavigator();
+const ActiStack = createStackNavigator();
 
-const InvoiceStackNavigator = () => {
+const ActiStackNavigator = () => {
   return (
-    <InvoiceStack.Navigator
-      initialRouteName="Invoice"
+    <ActiStack.Navigator
+      initialRouteName="Acti"
       screenOptions={screenOptions}
     >
-      <InvoiceStack.Screen
+      <ActiStack.Screen
         name="Contact"
         component={Contacts}
         options={{ title: "Contact" }}
       />
-    </InvoiceStack.Navigator>
+    </ActiStack.Navigator>
   );
 };
 
-export default InvoiceStackNavigator;
+export default ActiStackNavigator;

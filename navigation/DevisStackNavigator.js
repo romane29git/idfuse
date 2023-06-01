@@ -5,7 +5,7 @@ import Companies from "../components/Companies";
 
 const PipelineStack = createStackNavigator();
 
-const PipelineStackNavigator = () => {
+const DevisStackNavigator = () => {
   return (
     <PipelineStack.Navigator
       initialRouteName="Pipeline"
@@ -20,4 +20,4 @@ const PipelineStackNavigator = () => {
   );
 };
 
-export default PipelineStackNavigator;
+export default DevisStackNavigator;
