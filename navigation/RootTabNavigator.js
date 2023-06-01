@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 
 const RootTabNavigator = () => {
   return (
-    <NavigationContainer>
+    <>
       <StatusBar barStyle="light-content" backgroundColor="#AC6DF4" />
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -41,7 +41,7 @@ const RootTabNavigator = () => {
         <Tab.Screen name="Invoice" component={InvoiceStackNavigator} />
         <Tab.Screen name="Settings" component={SettingsStackNavigator} />
       </Tab.Navigator>
-    </NavigationContainer>
+    </>
   );
 };
 

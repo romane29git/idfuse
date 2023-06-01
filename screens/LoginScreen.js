@@ -9,7 +9,7 @@ import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import RootTabNavigator from "../navigation/RootTabNavigator";
+import App from "../App";
 
 export default function LoginScreen({ navigation }) {
   const [accessToken, setAccessToken] = useState(null);
@@ -147,9 +147,19 @@ export default function LoginScreen({ navigation }) {
       </Background>
     );
   }
+   else {
+    return (
+      <App/>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 50,
+    marginBottom: 30,
+  },
   forgotPassword: {
     width: "100%",
     alignItems: "flex-end",
@@ -157,7 +167,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginTop: 4,
+    marginTop: 50,
   },
   forgot: {
     fontSize: 13,

@@ -3,8 +3,14 @@ import { View, Button, Text } from "react-native";
 import styles from "./theme/styles";
 import RootTabNavigator from "./navigation/RootTabNavigator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Header from "./components/Header";
+import StartScreen from "./screens/StartScreen";
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [accessToken, setAccessToken] = useState(null);
@@ -116,19 +122,56 @@ export default function App() {
   // };
 
   // L'utilisateur est connecté, afficher la page d'accueil
-  if (accessToken) {
-    return (
-      <View style={styles.container}>
-        <RootTabNavigator />
-        <Button title="Déconnexion" onPress={removeAccessToken} />
-      </View>
-    );
-  } else {
-    return (
-      <View style={styles.container}>
-        <Button title="Se connecter" onPress={login} />
-        {/* <LoginScreen /> */}
-      </View>
-    );
-  }
+  // if (accessToken) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <RootTabNavigator />
+  //       <Button title="Déconnexion" onPress={removeAccessToken} />
+  //     </View>
+  //   );
+  // } else {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Button title="Se connecter" onPress={login} />
+  //       {/* <LoginScreen /> */}
+  //     </View>
+  //   );
+  // }
+
+  return (
+    <NavigationContainer>
+      {accessToken ? (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Root"
+            component={RootTabNavigator}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="StartScreen"
+            component={StartScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="RegisterScreen"
+            component={RegisterScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ResetPasswordScreen"
+            component={ResetPasswordScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      )}
+    </NavigationContainer>
+  );
 }
