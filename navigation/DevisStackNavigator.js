@@ -3,20 +3,20 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { screenOptions } from "../theme/styles";
 import Companies from "../components/Companies";
 
-const PipelineStack = createStackNavigator();
+const DevisStack = createStackNavigator();
 
 const DevisStackNavigator = () => {
   return (
-    <PipelineStack.Navigator
-      initialRouteName="Pipeline"
+    <DevisStack.Navigator
+      initialRouteName="Devis"
       screenOptions={screenOptions}
     >
-      <PipelineStack.Screen
+      <DevisStack.Screen
         name="Companies"
         component={Companies}
         options={{ title: "Companies" }}
       />
-    </PipelineStack.Navigator>
+    </DevisStack.Navigator>
   );
 };
 
