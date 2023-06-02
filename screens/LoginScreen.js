@@ -15,6 +15,9 @@ export default function LoginScreen({ navigation }) {
   const [accessToken, setAccessToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState(false);
 
   // Fonction pour vérifier si l'utilisateur est connecté au chargement de l'application
   useEffect(() => {
@@ -28,6 +31,9 @@ export default function LoginScreen({ navigation }) {
 
       if (storedAccessToken) {
         setAccessToken(storedAccessToken);
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
       }
     } catch (error) {
       console.log("Erreur lors de la vérification du token :", error);
@@ -39,8 +45,12 @@ export default function LoginScreen({ navigation }) {
   // Fonction pour stocker le token dans le stockage local (connexion)
   const storeAccessToken = async (token) => {
     try {
-      await AsyncStorage.setItem("accessToken", token);
-      setAccessToken(token);
+      if (token) {
+        await AsyncStorage.setItem("accessToken", token);
+        setAccessToken(token);
+      } else {
+        console.log("Le token est null ou undefined");
+      }
     } catch (error) {
       console.log("Erreur de stockage du token :", error);
     }
@@ -69,24 +79,22 @@ export default function LoginScreen({ navigation }) {
 
       const data = await response.json();
 
-      if (data.success === 1) {
-        const accessToken = data.sso_token;
+      if (response.ok && data.success) {
+        // Connexion réussie
+        const accessToken = data.accessToken;
         storeAccessToken(accessToken);
         setIsLoggedIn(true);
-        console.log("Connexion réussie");
+        setLoginError(false);
       } else {
-        console.log("Échec de la connexion :", data.result_message);
+        // Échec de la connexion
+        setAccessToken(null);
+        setIsLoggedIn(false);
+        setLoginError(true);
       }
     } catch (error) {
       console.log("Erreur lors de la connexion :", error);
     }
   };
-
-  // // Fonction pour effectuer une action lorsque l'utilisateur est connecté
-  // const performActionWhenLoggedIn = () => {
-  //   // Effectuer l'action souhaitée lorsque l'utilisateur est connecté
-  //   console.log("Utilisateur connecté. Effectuer l'action souhaitée ici.");
-  // };
 
   if (isLoading) {
     // Afficher un indicateur de chargement pendant la vérification du token
@@ -97,9 +105,8 @@ export default function LoginScreen({ navigation }) {
     );
   }
 
-  //--------------------------------------------------------------------------------------------------------------------
-
   if (isLoggedIn) {
+    // Utilisateur connecté, afficher l'interface principale de l'application
     return <RootTabNavigator />;
   } else {
     // L'utilisateur n'est pas connecté, afficher l'interface de connexion
@@ -110,24 +117,20 @@ export default function LoginScreen({ navigation }) {
         <Header>Welcome back.</Header>
         <TextInput
           label="Email"
-          // returnKeyType="next"
-          // value={email.value}
-          // onChangeText={(text) => setEmail({ value: text, error: "" })}
-          // error={!!email.error}
-          // errorText={email.error}
-          // autoCapitalize="none"
-          // autoCompleteType="email"
-          // textContentType="emailAddress"
-          // keyboardType="email-address"
+          returnKeyType="next"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          autoCapitalize="none"
+          autoCompleteType="email"
+          textContentType="emailAddress"
+          keyboardType="email-address"
         />
         <TextInput
           label="Password"
-          // returnKeyType="done"
-          // value={password.value}
-          // onChangeText={(text) => setPassword({ value: text, error: "" })}
-          // error={!!password.error}
-          // errorText={password.error}
-          // secureTextEntry
+          returnKeyType="done"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          secureTextEntry
         />
         <View style={styles.forgotPassword}>
           <Text
@@ -175,5 +178,9 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: "bold",
     color: theme.colors.primary,
+  },
+  errorText: {
+    color: "red",
+    marginBottom: 10,
   },
 });

@@ -57,28 +57,29 @@ export default function App() {
   };
 
   // Fonction pour se connecter et obtenir le token depuis l'API
-  const login = async () => {
-    try {
-      // Effectuer une requête à l'API pour obtenir le token
-      const response = await fetch(
-        "https://app.idfuse.fr/api/sso?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78&sso_user=democlients",
-        {
-          method: "GET",
-        }
-      );
+  // const login = async () => {
+  //   try {
+  //     // Effectuer une requête à l'API pour obtenir le token
+  //     const response = await fetch(
+  //       "https://app.idfuse.fr/api/sso?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78&sso_user=democlients",
+  //       {
+  //         method: "GET",
+  //       }
+  //     );
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data.success === 1) {
-        const accessToken = data.sso_token;
-        storeAccessToken(accessToken);
-      } else {
-        console.log("Échec de la connexion :", data.result_message);
-      }
-    } catch (error) {
-      console.log("Erreur lors de la connexion :", error);
-    }
-  };
+  //     if (data.success === 1) {
+  //       const accessToken = data.sso_token;
+  //       storeAccessToken(accessToken);
+  //     } else {
+  //       console.log("Échec de la connexion :", data.result_message);
+  //       setAccessToken(null);
+  //     }
+  //   } catch (error) {
+  //     console.log("Erreur lors de la connexion :", error);
+  //   }
+  // };
 
   // Fonction pour effectuer une action lorsque l'utilisateur est connecté
   // const performActionWhenLoggedIn = () => {
