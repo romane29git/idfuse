@@ -21,19 +21,22 @@ export default function LoginScreen({ navigation }) {
 
   // Fonction pour vérifier si l'utilisateur est connecté au chargement de l'application
   useEffect(() => {
-    checkAccessToken();
+    // checkAccessToken();
+    setIsLoading(false);
   }, []);
 
   // Fonction pour vérifier si l'utilisateur a un token dans le stockage local
   const checkAccessToken = async () => {
     try {
       const storedAccessToken = await AsyncStorage.getItem("accessToken");
-
+      
       if (storedAccessToken) {
         setAccessToken(storedAccessToken);
         setIsLoggedIn(true);
+        console.log ('Utilisateur connecté');
       } else {
         setIsLoggedIn(false);
+        console.log ('Utilisateur non connecté');
       }
     } catch (error) {
       console.log("Erreur lors de la vérification du token :", error);
@@ -106,10 +109,10 @@ export default function LoginScreen({ navigation }) {
   }
 
   if (isLoggedIn) {
-    // Utilisateur connecté, afficher l'interface principale de l'application
+    // Utilisateur connecté, affiche l'interface principale de l'application
     return <RootTabNavigator />;
   } else {
-    // L'utilisateur n'est pas connecté, afficher l'interface de connexion
+    // L'utilisateur n'est pas connecté, affiche l'interface de connexion
     return (
       <Background>
         <BackButton goBack={() => navigation.goBack()} />
