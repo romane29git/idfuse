@@ -2,7 +2,7 @@ import { Text, View, FlatList, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import companiesApi from "../api/companiesApi";
 import styles from "../theme/styles";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const Companies = () => {
   const [companies, setCompanies] = useState(null);
@@ -20,7 +20,7 @@ const Companies = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
-      <TouchableOpacity onPress={() => handlePress(item.name)}>
+      <TouchableOpacity onPress={() => handlePress(item)}>
         <Text style={styles.name}>{item.name}</Text>
       </TouchableOpacity>
       <Text style={styles.city}>
@@ -29,9 +29,10 @@ const Companies = () => {
     </View>
   );
 
-  const handlePress = (name) => {
-    console.log("Entreprise cliquée :", name);
-    navigation.navigate("Company", { name });
+  const handlePress = (item) => {
+    console.log("Entreprise cliquée :", item.name, item.id);
+    navigation.navigate("Company", { id: item.id, name: item.name });
+   
   };
 
   return (

@@ -1,39 +1,41 @@
-import { Text, View, FlatList } from "react-native";
-import React, { useState, useEffect } from "react";
-import companiesApi from "../api/companiesApi";
-import styles from "../theme/styles";
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
+import api, { getCompanyById } from "../api/companiesApi";
 
-const Company = () => {
+const Company = ({ route }) => {
   const [company, setCompany] = useState(null);
+  const { name } = route.params;
+  const companyId = route.params.id;
+  console.log('Company ID:', companyId);
 
   useEffect(() => {
-    async function fetchData() {
-      const fetchedCompany = await companiesApi.fetchCompany();
-      setCompany(fetchedCompany);
+    async function fetchCompanyData() {
+      try {
+        const companyId = route.params.id; 
+        const fetchedCompany = await getCompanyById(companyId);
+        setCompany(fetchedCompany);
+      } catch (error) {
+        console.log("Error fetching company data:", error);
+      }
     }
 
-    fetchData();
+    fetchCompanyData();
   }, []);
 
-  const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.city}>
-        {item.postal_code} - {item.city}
-      </Text>
-    </View>
-  );
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{item.name}</Text>
-      <View style={styles.row}>
-        <Text style={styles.city}>
-          {item.postal_code} - {item.city}
-        </Text>
-      </View>
+    <View>
+      {company ? (
+        <>
+          <Text>Entreprise : {name}</Text>
+          <Text>Ville : {company.city}</Text>
+          <Text>Code postal : {company.postal_code}</Text>
+        </>
+      ) : (
+        <Text>Loading company data...</Text>
+      )}
     </View>
   );
+  
 };
 
 export default Company;
