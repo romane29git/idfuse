@@ -76,12 +76,7 @@ class companiesApi {
     }
 
     return companies.map((company) => this.createCompany(company));
-  }
-
-  
-
-  
-  
+  }  
 }
 
 export default new companiesApi();

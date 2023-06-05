@@ -60,13 +60,12 @@ export default function Dashboard({ navigation }) {
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>
               Nombre de factures
             </Text>
-            <Text style={{ fontSize: 14, color: "gray" }}>Card Subtitle</Text>
+            <Text style={{ fontSize: 14, color: "gray" }}>
+              {formatLastUpdated()}
+            </Text>
           </View>
           <Card.Divider />
-          <Card.Image source={require("../assets/splash.png")} />
-          <Card.Divider />
-          <Button mode="outlined">Ok</Button>
-          <Button mode="outlined">Cancel</Button>
+          <Text>nb factures</Text>
         </Card>
 
         <Card>

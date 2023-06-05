@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { screenOptions } from "../theme/styles";
-import Contacts from "../components/Contacts";
+import Agenda from "../components/Agenda";
 
 const ActiStack = createStackNavigator();
 
@@ -12,9 +12,9 @@ const ActiStackNavigator = () => {
       screenOptions={screenOptions}
     >
       <ActiStack.Screen
-        name="Contact"
-        component={Contacts}
-        options={{ title: "Contact" }}
+        name="Agenda"
+        component={Agenda}
+        options={{ title: "Agenda" }}
       />
     </ActiStack.Navigator>
   );

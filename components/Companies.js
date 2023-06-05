@@ -1,10 +1,13 @@
-import { Text, View, FlatList } from "react-native";
+import { Text, View, FlatList, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import companiesApi from "../api/companiesApi";
 import styles from "../theme/styles";
+import { useNavigation } from '@react-navigation/native';
 
 const Companies = () => {
   const [companies, setCompanies] = useState(null);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function fetchData() {
@@ -17,12 +20,19 @@ const Companies = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
-      <Text style={styles.name}>{item.name}</Text>
+      <TouchableOpacity onPress={() => handlePress(item.name)}>
+        <Text style={styles.name}>{item.name}</Text>
+      </TouchableOpacity>
       <Text style={styles.city}>
         {item.postal_code} - {item.city}
       </Text>
     </View>
   );
+
+  const handlePress = (name) => {
+    console.log("Entreprise cliquée :", name);
+    navigation.navigate("Company", { name });
+  };
 
   return (
     <View style={styles.container}>
