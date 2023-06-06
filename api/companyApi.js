@@ -1,0 +1,71 @@
+class CompanyApi {
+  async fetchCompanyById(id) {
+    try {
+      const response = await fetch(
+        `https://app.idfuse.fr/api/crm/company/${id}?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78`
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw new Error(`Error fetching company data: ${error}`);
+    }
+  }
+
+  async getCompanyById(id) {
+    const companyData = await this.fetchCompanyById(id);
+    return this.createCompany(companyData);
+  }
+
+  createCompany(companyData) {
+    const company = {
+      id: companyData.company.id,
+      name: companyData.company.name,
+      city:
+        companyData.company.addresses &&
+        companyData.company.addresses.length > 0
+          ? companyData.company.addresses[0].city
+          : "",
+      postal_code:
+        companyData.company.addresses &&
+        companyData.company.addresses.length > 0
+          ? companyData.company.addresses[0].postal_code
+          : "",
+      address:
+        companyData.company.addresses &&
+        companyData.company.addresses.length > 0
+          ? companyData.company.addresses[0].customer_address
+          : "",
+      nb_contacts: companyData.company.cntContacts || 0,
+      contacts: companyData.company.contacts
+        ? companyData.company.contacts.map((contact) => {
+            return {
+              firstName: contact.first_name,
+              lastName: contact.last_name,
+              email: contact.email,
+            };
+          })
+        : [],
+      events: companyData.company.events
+        ? companyData.company.events.map((event) => {
+            return {
+              event_name: event.name,
+              event_date_start: event.date_start,
+              event_date_start: event.date_start,
+              event_type: event.type_event,
+            };
+          })
+        : [],
+      invoices: companyData.company.invoices
+        ? companyData.company.invoices.map((invoice) => {
+            return {
+              status: invoice.status,
+              invoice_date: invoice.invoice_date,
+            };
+          })
+        : [],
+    };
+    return company;
+  }
+}
+
+export default CompanyApi;
