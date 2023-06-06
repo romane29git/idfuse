@@ -20,6 +20,8 @@ class CompanyApi {
     const company = {
       id: companyData.company.id,
       name: companyData.company.name,
+      siren: companyData.company.registration_number,
+      account_number: companyData.company.account_number,
       city:
         companyData.company.addresses &&
         companyData.company.addresses.length > 0
@@ -61,6 +63,7 @@ class CompanyApi {
               status: invoice.status,
               invoice_date: invoice.invoice_date,
               number : invoice.number,
+              amount: invoice.amount,
             };
           })
         : [],
