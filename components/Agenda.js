@@ -6,7 +6,9 @@ const agendaApi = new AgendaApi();
 
 const Agenda = () => {
   const [todayEvents, setTodayEvents] = useState([]);
-  const [pastEvents, setEvents] = useState([]);
+  const [pastEvents, setPastEvents] = useState([]);
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+
 
   useEffect(() => {
     async function fetchEvents() {
@@ -29,8 +31,15 @@ const Agenda = () => {
           return eventDate < today;
         });
 
-        setEvents(pastEvents);
+        const upcomingEvents = allEvents.filter((event) => {
+          const eventDate = new Date(event.end);
+          const today = new Date();
+          return eventDate > today;
+        });
+
+        setPastEvents(pastEvents);
         setTodayEvents(todayEvents);
+        setUpcomingEvents(upcomingEvents);
       } catch (error) {
         console.log("Error fetching events:", error);
       }
@@ -52,6 +61,18 @@ const Agenda = () => {
       ) : (
         <Text>No events today</Text>
       )}
+
+      <Text style={styles.sectionTitle}>Événements à venir</Text>
+      {upcomingEvents.length > 0 ? (
+        upcomingEvents.map((event, index) => (
+          <View style={styles.eventContainer} key={index}>
+            <Text style={styles.eventName}>Event : {event.title}</Text>
+          </View>
+        ))
+      ) : (
+        <Text>No upcoming events</Text>
+      )}
+
       <Text style={styles.sectionTitle}>Événements passés</Text>
       {pastEvents.length > 0 ? (
         pastEvents.map((event, index) => (
