@@ -1,63 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, TextInput, Button, StyleSheet } from "react-native";
-import { fetchTasks } from "../api/agendaApi";
+import React, { useEffect, useState } from "react";
+import { Text, View, StyleSheet } from "react-native";
+import AgendaApi from "../api/agendaApi"; 
+
+const agendaApi = new AgendaApi();
 
 const Agenda = () => {
-  const [task, setTask] = useState("");
-  const [tasksList, setTasksList] = useState([]);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    fetchTasksFromAPI();
-  }, []);
+    async function fetchEvents() {
+      try {
+        const allEvents = await agendaApi.getAllEvents();
 
-  const fetchTasksFromAPI = async () => {
-    try {
-      const tasks = await fetchTasks();
-      setTasksList(tasks);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des tâches :", error);
+        const todayEvents = allEvents.filter((event) => {
+          const eventDate = new Date(event.date_start); 
+          const today = new Date();
+          return (
+            eventDate.getDate() === today.getDate() &&
+            eventDate.getMonth() === today.getMonth() &&
+            eventDate.getFullYear() === today.getFullYear()
+          );
+        });
+
+        const pastEvents = allEvents.filter((event) => {
+          const eventDate = new Date(event.end);
+          const today = new Date();
+          return eventDate < today;
+        });
+
+        const allEventsToday = [...todayEvents, ...pastEvents];
+        setEvents(allEventsToday);
+      } catch (error) {
+        console.log("Error fetching events:", error);
+      }
     }
-  };
 
-  //   const addTask = () => {
-  //     if (task.trim() !== "") {
-  //       setTasksList([...tasksList, task]);
-  //       setTask("");
-  //     }
-  //   };
-
-  //   const deleteTask = (index) => {
-  //     const updatedTasks = [...tasksList];
-  //     updatedTasks.splice(index, 1);
-  //     setTasksList(updatedTasks);
-  //   };
+    fetchEvents();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Agenda - Aujourd'hui</Text>
-      <View style={styles.inputContainer}>
-        {/* <TextInput
-          style={styles.input}
-          placeholder="Nouvelle tâche"
-          value={task}
-          onChangeText={(text) => setTask(text)}
-        /> */}
-        {/* <Button title="Ajouter" onPress={addTask} /> */}
-      </View>
-      {tasksList &&
-        tasksList.map((task, index) => (
-          <View style={styles.taskContainer} key={index}>
-            <Text style={styles.taskText}>{task.title}</Text>
-            {/* <Button
-      title="Supprimer"
-      onPress={() => deleteTask(index)}
-      color="#FF0000"
-    /> */}
+      <Text style={styles.title}>Agenda</Text>
+      {events.length > 0 ? (
+        events.map((event, index) => (
+          <View key={index}>
+            <Text>Event Name: {event.title}</Text>
           </View>
-        ))}
+        ))
+      ) : (
+        <Text>No events today</Text>
+      )}
     </View>
   );
 };
+
+export default Agenda;
 
 const styles = StyleSheet.create({
   container: {
@@ -92,5 +89,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-export default Agenda;

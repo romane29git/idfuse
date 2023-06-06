@@ -8,7 +8,6 @@ const Company = ({ route }) => {
   const [company, setCompany] = useState(null);
   const { name } = route.params;
   const companyId = route.params.id;
-  console.log("Company ID:", companyId);
 
   useEffect(() => {
     async function fetchCompanyData() {

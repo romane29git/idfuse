@@ -6,7 +6,6 @@ import { useNavigation } from "@react-navigation/native";
 
 const Companies = () => {
   const [companies, setCompanies] = useState(null);
-
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -30,9 +29,7 @@ const Companies = () => {
   );
 
   const handlePress = (item) => {
-    console.log("Entreprise cliquée :", item.name, item.id);
     navigation.navigate("Company", { id: item.id, name: item.name });
-   
   };
 
   return (
