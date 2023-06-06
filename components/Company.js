@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import CompanyApi from "../api/companyApi";
 
 const companyApi = new CompanyApi();
@@ -23,22 +23,84 @@ const Company = ({ route }) => {
     fetchCompanyData();
   }, []);
 
-
   return (
-    <View>
+    <ScrollView>
       {company ? (
         <>
-          <Text>Entreprise : {name}</Text>
-          <Text>Adresse : {company.address}</Text>
-          <Text>Ville : {company.city}</Text>
-          <Text>Code postal : {company.postal_code}</Text>
-          <Text>Nb contacts : {company.nb_contacts}</Text>
+          <Text style={styles.text}>Entreprise : {name}</Text>
+          <Text style={styles.text}>Adresse : {company.address}</Text>
+          <Text style={styles.text}>Ville : {company.city}</Text>
+          <Text style={styles.text}>Code postal : {company.postal_code}</Text>
+          <Text style={styles.text}>Nb contacts : {company.nb_contacts}</Text>
+          {company.contacts.length > 0 && (
+            <>
+              <Text style={styles.text}>Liste des contacts :</Text>
+            </>
+          )}
+          {company.contacts.map((contact, index) => (
+            <View key={index} style={styles.contactContainer}>
+              <Text style={styles.contactText}>
+                Prénom : {contact.firstName}
+              </Text>
+              <Text style={styles.contactText}>Nom : {contact.lastName}</Text>
+              <Text style={styles.contactText}>Email : {contact.email}</Text>
+            </View>
+          ))}
+          {company.events.length > 0 && (
+            <>
+              <Text style={styles.text}>Listes des events : </Text>
+            </>
+          )}
+          {company.events.map((event, index) => (
+            <View key={index} style={styles.contactContainer}>
+              <Text style={styles.contactText}>Event : {event.event_name}</Text>
+              <Text style={styles.contactText}>
+                Date de début : {event.event_date_start}
+              </Text>
+              <Text style={styles.contactText}>
+                Date de fin : {event.event_date_end}
+              </Text>
+              <Text style={styles.contactText}>Type : {event.event_type}</Text>
+            </View>
+          ))}
+
+          {company.invoices.length > 0 && (
+            <>
+              <Text style={styles.text}>Listes des factures : </Text>
+            </>
+          )}
+          {company.invoices.map((invoice, index) => (
+            <View key={index} style={styles.contactContainer}>
+              <Text style={styles.contactText}>Numéro : {invoice.number}</Text>
+              <Text style={styles.contactText}>Statut : {invoice.status}</Text>
+              <Text style={styles.contactText}>
+                Date : {invoice.invoice_date}
+              </Text>
+            </View>
+          ))}
         </>
       ) : (
         <Text>Loading company data...</Text>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
 export default Company;
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  contactContainer: {
+    backgroundColor: "#f5f5f5",
+    padding: 12,
+    marginBottom: 8,
+  },
+  contactText: {
+    fontSize: 14,
+    marginBottom: 4,
+  },
+});

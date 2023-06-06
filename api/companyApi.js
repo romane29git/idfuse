@@ -50,7 +50,7 @@ class CompanyApi {
             return {
               event_name: event.name,
               event_date_start: event.date_start,
-              event_date_start: event.date_start,
+              event_date_end: event.date_end,
               event_type: event.type_event,
             };
           })
@@ -60,6 +60,7 @@ class CompanyApi {
             return {
               status: invoice.status,
               invoice_date: invoice.invoice_date,
+              number : invoice.number,
             };
           })
         : [],
