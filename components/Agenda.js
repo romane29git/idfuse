@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
-import AgendaApi from "../api/agendaApi"; 
+import AgendaApi from "../api/agendaApi";
 
 const agendaApi = new AgendaApi();
 
 const Agenda = () => {
-  const [events, setEvents] = useState([]);
+  const [todayEvents, setTodayEvents] = useState([]);
+  const [pastEvents, setEvents] = useState([]);
 
   useEffect(() => {
     async function fetchEvents() {
@@ -13,7 +14,7 @@ const Agenda = () => {
         const allEvents = await agendaApi.getAllEvents();
 
         const todayEvents = allEvents.filter((event) => {
-          const eventDate = new Date(event.date_start); 
+          const eventDate = new Date(event.date_start);
           const today = new Date();
           return (
             eventDate.getDate() === today.getDate() &&
@@ -28,8 +29,8 @@ const Agenda = () => {
           return eventDate < today;
         });
 
-        const allEventsToday = [...todayEvents, ...pastEvents];
-        setEvents(allEventsToday);
+        setEvents(pastEvents);
+        setTodayEvents(todayEvents);
       } catch (error) {
         console.log("Error fetching events:", error);
       }
@@ -41,14 +42,25 @@ const Agenda = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Agenda</Text>
-      {events.length > 0 ? (
-        events.map((event, index) => (
-          <View key={index}>
-            <Text>Event Name: {event.title}</Text>
+      <Text style={styles.sectionTitle}>Événements aujourd'hui</Text>
+      {todayEvents.length > 0 ? (
+        todayEvents.map((event, index) => (
+          <View style={styles.eventContainer} key={index}>
+            <Text style={styles.eventName}>Event Name: {event.title}</Text>
           </View>
         ))
       ) : (
         <Text>No events today</Text>
+      )}
+      <Text style={styles.sectionTitle}>Événements passés</Text>
+      {pastEvents.length > 0 ? (
+        pastEvents.map((event, index) => (
+          <View style={styles.eventContainer} key={index}>
+            <Text style={styles.eventName}>Event : {event.title}</Text>
+          </View>
+        ))
+      ) : (
+        <Text>No past events</Text>
       )}
     </View>
   );
@@ -66,6 +78,18 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  eventContainer: {
+    marginBottom: 10,
+  },
+  eventName: {
+    fontSize: 16,
   },
   inputContainer: {
     flexDirection: "row",
