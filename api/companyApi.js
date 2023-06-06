@@ -20,6 +20,7 @@ class CompanyApi {
     const company = {
       id: companyData.company.id,
       name: companyData.company.name,
+      status: companyData.company.company_status,
       siren: companyData.company.registration_number,
       account_number: companyData.company.account_number,
       city:

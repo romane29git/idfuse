@@ -28,8 +28,19 @@ const Company = ({ route }) => {
       {company ? (
         <>
           <Text style={styles.text}>Entreprise : {name}</Text>
+          <Text style={styles.text}>
+            Statut :
+            {company.status === "customer" ? (
+              <Text style={styles.text}> Client</Text>
+            ) : (
+              <Text style={styles.text}> En réflexion</Text>
+            )}
+          </Text>
+
           <Text style={styles.text}>SIREN : {company.siren}</Text>
-          <Text style={styles.text}>Numéro de compte : {company.account_number}</Text>
+          <Text style={styles.text}>
+            Numéro de compte : {company.account_number}
+          </Text>
           <Text style={styles.text}>Adresse : {company.address}</Text>
           <Text style={styles.text}>Ville : {company.city}</Text>
           <Text style={styles.text}>Code postal : {company.postal_code}</Text>
