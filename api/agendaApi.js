@@ -15,7 +15,6 @@ class AgendaApi {
   async getAllEvents() {
     try {
       const events = await fetchEvents();
-      console.log("Fetched events:", events);
       return events;
     } catch (error) {
       console.error("Erreur lors de la récupération des événements :", error);

@@ -9,7 +9,6 @@ const Agenda = () => {
   const [pastEvents, setPastEvents] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
 
-
   useEffect(() => {
     async function fetchEvents() {
       try {
