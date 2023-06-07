@@ -2,11 +2,15 @@ const rootEndpoint =
   "https://app.idfuse.fr/api/crm/company/all?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78&api=1";
 
 export class Company {
-  constructor(id, name, city, postal_code) {
+  constructor(id, name, city, postal_code, produit, effectif, secteur,  statut) {
     this.id = id;
     this.name = name;
     this.city = city;
     this.postal_code = postal_code;
+    this.produit = produit;
+    this.effectif = effectif;
+    this.secteur = secteur;
+    this.statut = statut;
   }
 }
 
@@ -74,7 +78,11 @@ class companiesApi {
       company.id,
       company.name,
       company.city,
-      company.postal_code
+      company.postal_code,
+      company.Produits,
+      company["Effectif entreprise"],
+      company["Secteur activite"],
+      company.company_status,
     );
   }
 

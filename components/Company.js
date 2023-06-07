@@ -35,7 +35,6 @@ const Company = ({ route }) => {
               <Text style={styles.text}> En réflexion</Text>
             )}
           </Text>
-
           <Text style={styles.text}>SIREN : {company.siren}</Text>
           <Text style={styles.text}>
             Numéro de compte : {company.account_number}
