@@ -1,15 +1,15 @@
 import { Text, View, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
-import devisApi from "../api/devisApi";
+import opportunityApi from "../api/opportunityApi";
 import styles from "../theme/styles";
 
-const Devis = () => {
-  const [devis, setDevis] = useState(null);
+const Opportunity = () => {
+  const [opportunity, setOpportunity] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
-      const fetchedDevis = await devisApi.fetchDevis();
-      setDevis(fetchedDevis);
+      const fetchedOpportunity = await opportunityApi.fetchOpportunity();
+      setOpportunity(fetchedOpportunity);
     }
 
     fetchData();
@@ -26,11 +26,11 @@ const Devis = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Devis</Text>
+      <Text style={styles.title}>Opportunity</Text>
       <View style={styles.row}>
         <View style={styles.column}>
         <FlatList
-            data={devis}
+            data={opportunity}
             renderItem={renderItem}
             keyExtractor={(item) => String(item.id)}
             ></FlatList>
@@ -40,4 +40,4 @@ const Devis = () => {
   );
 };
 
-export default Devis;
+export default Opportunity;

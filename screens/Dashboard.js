@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Button from "../components/Button";
 import { Card } from "react-native-elements";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import moment from "moment";
 import "moment/locale/fr";
-import styles from "../theme/styles";
 import companiesApi from "../api/companiesApi";
 
 export default function Dashboard({ navigation }) {
@@ -39,71 +38,60 @@ export default function Dashboard({ navigation }) {
     <View style={styles.container}>
       <ScrollView>
         <Card>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-              Nombre d'entreprises
-            </Text>
-            <Text style={{ fontSize: 14, color: "gray" }}>
-              {formatLastUpdated()}
-            </Text>
+          <View style={styles.cardView}>
+            <Text style={styles.cardTitle}>Nombre d'entreprises</Text>
+            <Text style={styles.cardSubtitle}>{formatLastUpdated()}</Text>
           </View>
           <Card.Divider />
           <Text>{companyCount}</Text>
         </Card>
 
         <Card>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-              Nombre de factures
-            </Text>
-            <Text style={{ fontSize: 14, color: "gray" }}>
-              {formatLastUpdated()}
-            </Text>
+          <View style={styles.cardView}>
+            <Text style={styles.cardTitle}>Nombre de factures</Text>
+            <Text style={styles.cardSubtitle}>{formatLastUpdated()}</Text>
           </View>
           <Card.Divider />
           <Text>nb factures</Text>
         </Card>
 
         <Card>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-              Card Title 3
-            </Text>
-            <Text style={{ fontSize: 14, color: "gray" }}>Card Subtitle</Text>
+          <View style={styles.cardView}>
+            <Text style={styles.cardTitle}>Nombre de factures</Text>
+            <Text style={styles.cardSubtitle}>{formatLastUpdated()}</Text>
           </View>
           <Card.Divider />
-          <Card.Image source={require("../assets/splash.png")} />
-          <Card.Divider />
-          <Text>Card content</Text>
-          <Button mode="outlined">Ok</Button>
-          <Button mode="outlined">Cancel</Button>
-        </Card>
-
-        <Card>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-              Card Title 4
-            </Text>
-            <Text style={{ fontSize: 14, color: "gray" }}>Card Subtitle</Text>
-          </View>
-          <Card.Divider />
-          <Card.Image source={require("../assets/splash.png")} />
-          <Card.Divider />
-          <Text>Card content</Text>
-          <Button mode="outlined">Ok</Button>
-          <Button mode="outlined">Cancel</Button>
+          <Text>nb factures</Text>
         </Card>
       </ScrollView>
-
-      {/* <Button mode="outlined">Logout</Button> */}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  cardView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  cardSubtitle: {
+    fontSize: 14,
+    color: "gray",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+});

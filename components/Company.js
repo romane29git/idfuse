@@ -23,16 +23,19 @@ const Company = ({ route }) => {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       {company ? (
         <>
-          <Text style={styles.text}>Entreprise : {name}</Text>
+          <Text style={styles.sectionTitle}>{name}</Text>
           <Text style={styles.text}>
-            Statut :
             {company.status === "customer" ? (
-              <Text style={styles.text}> Client</Text>
+              <View style={styles.customer}>
+                <Text style={styles.statut}>customer</Text>
+              </View>
             ) : (
-              <Text style={styles.text}> En réflexion</Text>
+              <View style={styles.prospect}>
+                <Text style={styles.statut}>cold prospect</Text>
+              </View>
             )}
           </Text>
           <Text style={styles.text}>SIREN : {company.siren}</Text>
@@ -40,12 +43,10 @@ const Company = ({ route }) => {
             Numéro de compte : {company.account_number}
           </Text>
           <Text style={styles.text}>Adresse : {company.address}</Text>
-          <Text style={styles.text}>Ville : {company.city}</Text>
-          <Text style={styles.text}>Code postal : {company.postal_code}</Text>
-          <Text style={styles.text}>Nb contacts : {company.nb_contacts}</Text>
+          <Text style={styles.text}>{company.nb_contacts} contact(s)</Text>
           {company.contacts.length > 0 && (
             <>
-              <Text style={styles.text}>Liste des contacts :</Text>
+              <Text style={styles.title}>Liste des contacts :</Text>
             </>
           )}
           {company.contacts.map((contact, index) => (
@@ -59,7 +60,7 @@ const Company = ({ route }) => {
           ))}
           {company.events.length > 0 && (
             <>
-              <Text style={styles.text}>Listes des events : </Text>
+              <Text style={styles.title}>Listes des events : </Text>
             </>
           )}
           {company.events.map((event, index) => (
@@ -77,7 +78,7 @@ const Company = ({ route }) => {
 
           {company.invoices.length > 0 && (
             <>
-              <Text style={styles.text}>Listes des factures : </Text>
+              <Text style={styles.title}>Listes des factures : </Text>
             </>
           )}
           {company.invoices.map((invoice, index) => (
@@ -101,18 +102,52 @@ const Company = ({ route }) => {
 export default Company;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#fff",
+  },
   text: {
     fontSize: 16,
-    fontWeight: "bold",
     marginBottom: 8,
+    color: "#333",
   },
   contactContainer: {
     backgroundColor: "#f5f5f5",
     padding: 12,
     marginBottom: 8,
+    borderRadius: 8,
   },
   contactText: {
     fontSize: 14,
     marginBottom: 4,
+    color: "#333",
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+    color: "#333",
+    textAlign: "center",
+  },
+  title: {
+    fontSize: 19,
+    marginBottom: 8,
+    color: "#333",
+    fontWeight: "bold",
+  },
+  customer: {
+    backgroundColor: "#1ccf60",
+    borderRadius: 15,
+  },
+  prospect: {
+    backgroundColor: "#68bae8",
+    borderRadius: 15,
+  },
+  statut: {
+    fontSize: 13,
+    color: "white",
+    fontWeight: "bold",
+    margin: 6,
   },
 });

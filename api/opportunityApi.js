@@ -1,26 +1,25 @@
 const rootEndpoint =
   "https://app.idfuse.fr/api/crm/opportunity/1?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78";
 
-export class Devis {
+export class Opportunity {
   constructor(name, companyName) {
     this.name = name;
     this.companyName = companyName;
   }
 }
 
-class DevisApi {
-  async fetchDevis() {
+class OpportunityApi {
+  async fetchOpportunity() {
     const response = await this.fetchFromApi(rootEndpoint);
     if (response && response.success === 1 && response.pipeline) {
-      const devis = this.createDevis(response);
-      return [devis];
+      const opportunity = this.createOpportunity(response);
+      return [opportunity];
     } else {
       console.error("Invalid API response:", response);
       return [];
     }
   }
   
-
   async fetchFromApi(query) {
     console.log(`Fetching API with query ${query}`);
     try {
@@ -32,22 +31,20 @@ class DevisApi {
     }
   }
 
-  createDevis(data) {
+  createOpportunity(data) {
     const pipeline = data.pipeline;
     if (!pipeline) {
-      console.error("Invalid devis data");
+      console.error("Invalid Opportunity data");
       return null;
     }
   
     const { name, companyName } = pipeline;
-    return new Devis(name, companyName);
+    return new Opportunity(name, companyName);
   }
   
-  
-
-  createSingleDevis(devisItem) {
-    return new Devis(devisItem.name, devisItem.companyName);
+  createSingleOpportunity(opportunityItem) {
+    return new Opportunity(opportunityItem.name, opportunityItem.companyName);
   }
 }
 
-export default new DevisApi();
+export default new OpportunityApi();
