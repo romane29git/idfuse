@@ -42,6 +42,7 @@ class CompanyApi {
       contacts: companyData.company.contacts
         ? companyData.company.contacts.map((contact) => {
             return {
+              contactId: contact.id,
               firstName: contact.first_name,
               lastName: contact.last_name,
               email: contact.email,

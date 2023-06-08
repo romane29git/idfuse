@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, ScrollView } from "react-native";
+import { Text, View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import CompanyApi from "../api/companyApi";
+import { useNavigation } from "@react-navigation/native";
+import Contact from "./Contact";
 
 const companyApi = new CompanyApi();
 
@@ -8,6 +10,7 @@ const Company = ({ route }) => {
   const [company, setCompany] = useState(null);
   const { name } = route.params;
   const companyId = route.params.id;
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function fetchCompanyData() {
@@ -21,6 +24,10 @@ const Company = ({ route }) => {
 
     fetchCompanyData();
   }, []);
+
+  const handlePress = (contact) => {
+    navigation.navigate("Contact", { id: contact.contactId });
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -50,13 +57,15 @@ const Company = ({ route }) => {
             </>
           )}
           {company.contacts.map((contact, index) => (
-            <View key={index} style={styles.contactContainer}>
-              <Text style={styles.contactText}>
-                Prénom : {contact.firstName}
-              </Text>
-              <Text style={styles.contactText}>Nom : {contact.lastName}</Text>
-              <Text style={styles.contactText}>Email : {contact.email}</Text>
-            </View>
+            <TouchableOpacity onPress={() => handlePress(contact)}>
+              <View key={index} style={styles.contactContainer}>
+                <Text style={styles.contactText}>
+                  Prénom : {contact.firstName}
+                </Text>
+                <Text style={styles.contactText}>Nom : {contact.lastName}</Text>
+                <Text style={styles.contactText}>Email : {contact.email}</Text>
+              </View>
+            </TouchableOpacity>
           ))}
           {company.events.length > 0 && (
             <>
