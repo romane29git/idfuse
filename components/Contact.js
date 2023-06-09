@@ -1,4 +1,4 @@
-import { Text, ScrollView, View, StyleSheet } from "react-native";
+import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import ContactApi from "../api/ContactApi";
 import axios from "axios";
@@ -9,8 +9,14 @@ const Contact = () => {
   const [contact, setContact] = useState(null);
   const route = useRoute();
   const id = route.params.id;
+  const navigation = useNavigation();
 
   const contactApi = new ContactApi();
+
+  const updateContactId = (newId) => {
+    navigation.setParams({ id: newId });
+  };
+  
 
   useEffect(() => {
     const fetchContact = async () => {
@@ -25,7 +31,12 @@ const Contact = () => {
       }
     };
     fetchContact();
-  }, []);
+  }, [id]);
+
+  const handlePress = (newId) => {
+    updateContactId(newId);
+  };
+  
 
   return (
     <ScrollView style={styles.container}>
@@ -61,11 +72,16 @@ const Contact = () => {
             <>
               <Text style={styles.title}>Contacts</Text>
               {contact.contact.contacts.map((contact, index) => (
-                <View key={index} style={styles.contactContainer}>
-                  <Text style={styles.contactText}>
-                    {contact.first_name} {contact.last_name}
-                  </Text>
-                </View>
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handlePress(contact.id)}
+                >
+                  <View key={index} style={styles.contactContainer}>
+                    <Text style={styles.contactText}>
+                      {contact.first_name} {contact.last_name}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               ))}
             </>
           )}
