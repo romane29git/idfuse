@@ -57,7 +57,7 @@ const Company = ({ route }) => {
             </>
           )}
           {company.contacts.map((contact, index) => (
-            <TouchableOpacity onPress={() => handlePress(contact)}>
+            <TouchableOpacity key={index} onPress={() => handlePress(contact)}>
               <View key={index} style={styles.contactContainer}>
                 <Text style={styles.contactText}>
                   Prénom : {contact.firstName}

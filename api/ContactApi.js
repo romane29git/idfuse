@@ -21,6 +21,13 @@ class ContactApi {
       id: contactData.contact.id,
       last_name: contactData.contact.name,
       first_name: contactData.contact.name,
+      companies: contactData.contact.companies
+        ? contactData.contact.companies.map((company) => {
+            return {
+              name: company.name,
+            };
+          })
+        : [],
     };
     return contact;
   }
