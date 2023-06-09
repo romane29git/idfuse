@@ -23,7 +23,7 @@ const Company = ({ route }) => {
     }
 
     fetchCompanyData();
-  }, []);
+  }, [companyId]);
 
   const handlePress = (contact) => {
     navigation.navigate("Contact", { id: contact.contactId });
@@ -33,7 +33,7 @@ const Company = ({ route }) => {
     <ScrollView style={styles.container}>
       {company ? (
         <>
-          <Text style={styles.sectionTitle}>{name}</Text>
+          <Text style={styles.sectionTitle}>{company.name}</Text>
           <Text style={styles.text}>
             {company.status === "customer" ? (
               <View style={styles.customer}>

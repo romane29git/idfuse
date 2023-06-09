@@ -1,4 +1,10 @@
-import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  ScrollView,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import ContactApi from "../api/ContactApi";
 import axios from "axios";
@@ -16,7 +22,6 @@ const Contact = () => {
   const updateContactId = (newId) => {
     navigation.setParams({ id: newId });
   };
-  
 
   useEffect(() => {
     const fetchContact = async () => {
@@ -36,7 +41,11 @@ const Contact = () => {
   const handlePress = (newId) => {
     updateContactId(newId);
   };
-  
+
+  const handlePressCompany = (company) => {
+    navigation.navigate("Company", { id: company.id, name: company.name });
+    console.log('coucou',company );
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -61,9 +70,14 @@ const Contact = () => {
               <>
                 <Text style={styles.title}>Entreprises</Text>
                 {contact.contact.companies.map((company, index) => (
-                  <View key={index} style={styles.contactContainer}>
-                    <Text style={styles.contactText}>{company.name}</Text>
-                  </View>
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handlePressCompany(company)}
+                  >
+                    <View key={index} style={styles.contactContainer}>
+                      <Text style={styles.contactText}>{company.name}</Text>
+                    </View>
+                  </TouchableOpacity>
                 ))}
               </>
             )}
