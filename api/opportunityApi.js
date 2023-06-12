@@ -22,10 +22,10 @@ class OpportunityApi {
       name: opportunityData.pipeline.name,
       status: opportunityData.pipeline.status,
       amount: opportunityData.pipeline.amount,
-      probability: opportunityData.pipeline.probability,
       created_at: opportunityData.pipeline.created_at,
       closed_at: opportunityData.pipeline.closed_at,
       companyName: opportunityData.pipeline.companyName,
+      company_id : opportunityData.pipeline.company_id,
       first_name: opportunityData.pipeline.first_name,
       last_name: opportunityData.pipeline.last_name,
     };

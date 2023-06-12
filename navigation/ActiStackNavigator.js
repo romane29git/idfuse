@@ -14,7 +14,7 @@ const ActiStackNavigator = () => {
       <ActiStack.Screen
         name="Agenda"
         component={Agenda}
-        options={{ title: "Agenda" }}
+        options={{ title: "Agenda", headerShown: false }}
       />
     </ActiStack.Navigator>
   );

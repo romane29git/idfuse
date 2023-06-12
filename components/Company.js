@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import CompanyApi from "../api/companyApi";
 import { useNavigation } from "@react-navigation/native";
 import Contact from "./Contact";
+import { Image } from "react-native";
 
 const companyApi = new CompanyApi();
 
@@ -30,6 +37,15 @@ const Company = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => navigation.goBack()}
+      >
+        <Image
+          source={require("../assets/arrow_back.png")}
+          style={styles.backArrow}
+        />
+      </TouchableOpacity>
       {company ? (
         <>
           <Text style={styles.sectionTitle}>{company.name}</Text>
@@ -157,5 +173,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     margin: 6,
+  },
+  buttonContainer: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  backArrow: {
+    width: 20,
+    height: 20,
+    marginRight: 5,
   },
 });

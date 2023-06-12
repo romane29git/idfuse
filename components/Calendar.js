@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
       flexWrap: "wrap",
     },
     calendarDay: {
-      width: "14.28%", // 1/7th of the width for 7 days
-      aspectRatio: 1, // Make the cells square
+      width: "14.28%", 
+      aspectRatio: 1, 
       justifyContent: "center",
       alignItems: "center",
       borderWidth: 1,

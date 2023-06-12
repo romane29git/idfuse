@@ -17,22 +17,22 @@ const ContactsStackNavigator = () => {
       <ContactsStack.Screen
         name="Companies"
         component={Companies}
-        options={{ title: "Companies" }}
+        options={{ title: "Companies", headerShown: false}}
       />
       <ContactsStack.Screen
         name="Company"
         component={Company}
-        options={{ title: "Company" }}
+        options={{ title: "Company",headerShown: false }}
       />
       <ContactsStack.Screen
         name="Contact"
         component={Contact}
-        options={{ title: "Contact" }}
+        options={{ title: "Contact", headerShown: false }}
       />
       <ContactsStack.Screen
         name="Opportunity"
         component={Opportunity}
-        options={{ title: "Opportunity" }}
+        options={{ title: "Opportunity", headerShown: false }}
       />
     </ContactsStack.Navigator>
   );

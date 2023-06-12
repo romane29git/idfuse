@@ -11,7 +11,7 @@ const TodayStackNavigator = () => {
       <TodayStack.Screen
         name="Dashboard"
         component={Dashboard}
-        options={{ title: "Dashboard" }}
+        options={{ title: "Dashboard" , headerShown: false}}
       />
     </TodayStack.Navigator>
   );

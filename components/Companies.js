@@ -8,6 +8,7 @@ import {
 import React, { useState, useEffect } from "react";
 import companiesApi from "../api/companiesApi";
 import { useNavigation } from "@react-navigation/native";
+import { Image } from "react-native";
 
 const Companies = () => {
   const [companies, setCompanies] = useState(null);
@@ -24,30 +25,28 @@ const Companies = () => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handlePress(item)}>
-
-    <View style={styles.itemContainer}>
+      <View style={styles.itemContainer}>
         <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.city}>
-        {item.postal_code} - {item.city}
-      </Text>
-      <Text style={styles.info}>Produits : {item.produit}</Text>
-      <Text style={styles.info}>
-        Effectif de l'entreprise : {item.effectif}
-      </Text>
-      <Text style={styles.info}>
-        {item.statut === "customer" ? (
-          <View style={styles.customer}>
-            <Text style={styles.statut}>{item.statut}</Text>
-          </View>
-        ) : (
-          <View style={styles.prospect}>
-            <Text style={styles.statut}>{item.statut}</Text>
-          </View>
-        )}
-      </Text>
-    </View>
+        <Text style={styles.city}>
+          {item.postal_code} - {item.city}
+        </Text>
+        <Text style={styles.info}>Produits : {item.produit}</Text>
+        <Text style={styles.info}>
+          Effectif de l'entreprise : {item.effectif}
+        </Text>
+        <Text style={styles.info}>
+          {item.statut === "customer" ? (
+            <View style={styles.customer}>
+              <Text style={styles.statut}>{item.statut}</Text>
+            </View>
+          ) : (
+            <View style={styles.prospect}>
+              <Text style={styles.statut}>{item.statut}</Text>
+            </View>
+          )}
+        </Text>
+      </View>
     </TouchableOpacity>
-
   );
 
   const handlePress = (item) => {
@@ -119,5 +118,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     margin: 6,
+  },
+  buttonContainer: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  backArrow: {
+    width: 20,
+    height: 20,
+    marginRight: 5,
   },
 });

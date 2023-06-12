@@ -4,6 +4,7 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import ContactApi from "../api/ContactApi";
@@ -45,12 +46,21 @@ const Contact = () => {
   };
 
   const handlePressOpp = (opportunity) => {
-    navigation.navigate("Opportunity", { id: opportunity.id});
+    navigation.navigate("Opportunity", { id: opportunity.id });
     console.log(opportunity);
-  }
+  };
 
   return (
     <ScrollView style={styles.container}>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => navigation.goBack()}
+      >
+        <Image
+          source={require("../assets/arrow_back.png")}
+          style={styles.backArrow}
+        />
+      </TouchableOpacity>
       {contact ? (
         <>
           <Text style={styles.sectionTitle}>
@@ -176,5 +186,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     margin: 6,
+  },
+  buttonContainer: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  backArrow: {
+    width: 20,
+    height: 20,
+    marginRight: 5,
   },
 });
