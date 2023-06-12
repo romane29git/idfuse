@@ -11,6 +11,7 @@ import ContactApi from "../api/ContactApi";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
+import { Linking } from "react-native";
 
 const Contact = () => {
   const [contact, setContact] = useState(null);
@@ -50,6 +51,11 @@ const Contact = () => {
     console.log(opportunity);
   };
 
+  //envoi mail
+  const sendEmail = (emailAddress) => {
+    Linking.openURL(`mailto:${emailAddress}`);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <TouchableOpacity
@@ -71,7 +77,11 @@ const Contact = () => {
               <Text style={styles.title}>Mail</Text>
               {contact.contact.emails.map((contact, index) => (
                 <View key={index} style={styles.contactContainer}>
+                  <TouchableOpacity
+                    onPress={() => sendEmail(contact.mail)}
+                  >
                   <Text style={styles.contactText}>{contact.mail}</Text>
+                  </TouchableOpacity>
                 </View>
               ))}
             </>
