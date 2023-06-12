@@ -1,50 +1,36 @@
-const rootEndpoint =
-  "https://app.idfuse.fr/api/crm/opportunity/1?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78";
-
-export class Opportunity {
-  constructor(name, companyName) {
-    this.name = name;
-    this.companyName = companyName;
-  }
-}
-
 class OpportunityApi {
-  async fetchOpportunity() {
-    const response = await this.fetchFromApi(rootEndpoint);
-    if (response && response.success === 1 && response.pipeline) {
-      const opportunity = this.createOpportunity(response);
-      return [opportunity];
-    } else {
-      console.error("Invalid API response:", response);
-      return [];
-    }
-  }
-  
-  async fetchFromApi(query) {
-    console.log(`Fetching API with query ${query}`);
+  async fetchOpportunityById(id) {
     try {
-      const response = await fetch(query);
-      const content = await response.json();
-      return content;
-    } catch (e) {
-      console.error(e);
+      const response = await fetch(
+        `https://app.idfuse.fr/api/crm/opportunity/${id}?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78`
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw new Error(`Error fetching company data: ${error}`);
     }
   }
 
-  createOpportunity(data) {
-    const pipeline = data.pipeline;
-    if (!pipeline) {
-      console.error("Invalid Opportunity data");
-      return null;
-    }
-  
-    const { name, companyName } = pipeline;
-    return new Opportunity(name, companyName);
+  async getOpportunityById(id) {
+    const opportunityData = await this.fetchOpportunityById(id);
+    return this.createOpportunity(opportunityData);
   }
-  
-  createSingleOpportunity(opportunityItem) {
-    return new Opportunity(opportunityItem.name, opportunityItem.companyName);
+
+  createOpportunity(opportunityData) {
+    const opportunity = {
+      id: opportunityData.pipeline.id,
+      name: opportunityData.pipeline.name,
+      status: opportunityData.pipeline.status,
+      amount: opportunityData.pipeline.amount,
+      probability: opportunityData.pipeline.probability,
+      created_at: opportunityData.pipeline.created_at,
+      closed_at: opportunityData.pipeline.closed_at,
+      companyName: opportunityData.pipeline.companyName,
+      first_name: opportunityData.pipeline.first_name,
+      last_name: opportunityData.pipeline.last_name,
+    };
+    return opportunity;
   }
 }
 
-export default new OpportunityApi();
+export default OpportunityApi;

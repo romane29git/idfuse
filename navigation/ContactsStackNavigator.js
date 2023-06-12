@@ -4,6 +4,7 @@ import { screenOptions } from "../theme/styles";
 import Companies from "../components/Companies";
 import Company from "../components/Company";
 import Contact from "../components/Contact";
+import Opportunity from "../components/Opportunity";
 
 const ContactsStack = createStackNavigator();
 
@@ -27,6 +28,11 @@ const ContactsStackNavigator = () => {
         name="Contact"
         component={Contact}
         options={{ title: "Contact" }}
+      />
+      <ContactsStack.Screen
+        name="Opportunity"
+        component={Opportunity}
+        options={{ title: "Opportunity" }}
       />
     </ContactsStack.Navigator>
   );

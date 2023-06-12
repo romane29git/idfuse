@@ -17,8 +17,6 @@ const Contact = () => {
   const id = route.params.id;
   const navigation = useNavigation();
 
-  const contactApi = new ContactApi();
-
   const updateContactId = (newId) => {
     navigation.setParams({ id: newId });
   };
@@ -44,8 +42,12 @@ const Contact = () => {
 
   const handlePressCompany = (company) => {
     navigation.navigate("Company", { id: company.id, name: company.name });
-    console.log('coucou',company );
   };
+
+  const handlePressOpp = (opportunity) => {
+    navigation.navigate("Opportunity", { id: opportunity.id});
+    console.log(opportunity);
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -104,10 +106,15 @@ const Contact = () => {
             contact.contact.opportunities.length > 0 && (
               <>
                 <Text style={styles.title}>Opportunités</Text>
-                {contact.contact.opportunities.map((contact, index) => (
-                  <View key={index} style={styles.contactContainer}>
-                    <Text style={styles.contactText}>{contact.name}</Text>
-                  </View>
+                {contact.contact.opportunities.map((opportunity, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handlePressOpp(opportunity)}
+                  >
+                    <View key={index} style={styles.contactContainer}>
+                      <Text style={styles.contactText}>{opportunity.name}</Text>
+                    </View>
+                  </TouchableOpacity>
                 ))}
               </>
             )}
