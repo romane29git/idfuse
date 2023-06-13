@@ -1,8 +1,10 @@
+import axios from "axios";
+
 const rootEndpoint =
   "https://app.idfuse.fr/api/crm/company/all?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78&api=1";
 
 export class Company {
-  constructor(id, name, city, postal_code, produit, effectif, secteur,  statut) {
+  constructor(id, name, city, postal_code, produit, effectif, secteur, statut) {
     this.id = id;
     this.name = name;
     this.city = city;
@@ -11,6 +13,32 @@ export class Company {
     this.effectif = effectif;
     this.secteur = secteur;
     this.statut = statut;
+  }
+}
+
+export async function addCompany(newCompany) {
+  try {
+    console.log("coucou", newCompany);
+    const response = await axios.post(
+      "https://app.idfuse.fr/api/crm/company?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      console.log("Entreprise ajoutée avec succès");
+    } else {
+      throw new Error(
+        "Erreur lors de l'ajout de l'entreprise. Statut de la réponse : " +
+          response.status
+      );
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de l'entreprise :", error);
+    throw error;
   }
 }
 
@@ -26,50 +54,21 @@ class companiesApi {
     }
   }
 
-   async getCompanyById(id) {
+  async getCompanyById(id) {
     const company = await this.fetchFromApi(
       `https://app.idfuse.fr/api/crm/company/${id}?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78`
     );
-  
+
     return this.createCompany(company);
   }
-  
 
   async fetchFromApi(query) {
     console.log(`Fetching API with query ${query}`);
     try {
-      const response = await fetch(query);
-      const content = await response.json();
-      return content;
+      const response = await axios.get(query);
+      return response.data;
     } catch (e) {
       console.error(e);
-    }
-  }
-
-  async addCompany(newCompany) {
-    try {
-      const response = await fetch(
-        "https://app.idfuse.fr/api/crm/company?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newCompany),
-        }
-      );
-
-      if (response.ok) {
-        console.log("Entreprise ajoutée avec succès");
-      } else {
-        throw new Error(
-          "Erreur lors de l'ajout de l'entreprise. Statut de la réponse : " +
-            response.status
-        );
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'ajout de l'entreprise :", error);
-      throw error;
     }
   }
 
@@ -82,7 +81,7 @@ class companiesApi {
       company.Produits,
       company["Effectif entreprise"],
       company["Secteur activite"],
-      company.company_status,
+      company.company_status
     );
   }
 
