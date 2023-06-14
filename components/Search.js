@@ -14,19 +14,22 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = async (value) => {
-    try {
-      setSearchTerm(value);
-      const response = await fetch(
-        `https://app.idfuse.fr/api/search?q=${searchTerm}&api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78`
-      );
-      const data = await response.json();
+    setSearchTerm(value);
 
-      const filteredResults = data.result.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setSearchResults(filteredResults);
-    } catch (error) {
-      console.error("Erreur lors de la recherche :", error);
+    if (value.length > 2) {
+      try {
+        const response = await fetch(
+          `https://app.idfuse.fr/api/search?q=${searchTerm}&api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78`
+        );
+        const data = await response.json();
+
+        const filteredResults = data.result.filter((item) =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setSearchResults(filteredResults);
+      } catch (error) {
+        console.error("Erreur lors de la recherche :", error);
+      }
     }
   };
 
@@ -38,14 +41,10 @@ const Search = () => {
         value={searchTerm}
         onChangeText={(value) => handleSearch(value)}
       />
-      <TouchableOpacity style={styles.button} onPress={handleSearch}>
-        <Text style={styles.buttonText}>Rechercher</Text>
-      </TouchableOpacity>
-      {searchResults.length > 0 ? (
+      {searchResults.length > 0 && searchTerm.length >= 3 ? (
         <FlatList
           data={searchResults}
-          keyExtractor={(item) => item.name}
-          renderItem={({ item }) => (
+          keyExtractor={(item) => item.id ? item.id.toString() : ""}          renderItem={({ item }) => (
             <Text style={styles.item}>{item.name}</Text>
           )}
         />
