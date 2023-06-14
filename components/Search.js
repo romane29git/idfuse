@@ -44,7 +44,8 @@ const Search = () => {
       {searchResults.length > 0 && searchTerm.length >= 3 ? (
         <FlatList
           data={searchResults}
-          keyExtractor={(item) => item.id ? item.id.toString() : ""}          renderItem={({ item }) => (
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
             <Text style={styles.item}>{item.name}</Text>
           )}
         />
