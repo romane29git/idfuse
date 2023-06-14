@@ -1,6 +1,6 @@
 import { Text, View, FlatList, TextInput } from "react-native";
 import React, { useState, useEffect } from "react";
-import companiesApi, { addCompany } from "../api/companiesApi";
+import addCompaniesApi, { addCompany } from "../api/addCompaniesApi";
 import styles from "../theme/styles";
 import Button from "./Button";
 
@@ -14,7 +14,7 @@ const AddCompanies = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const fetchedCompanies = await companiesApi.fetchCompanies();
+      const fetchedCompanies = await addCompaniesApi.fetchCompanies();
       setCompanies(fetchedCompanies);
     }
 
@@ -23,19 +23,31 @@ const AddCompanies = () => {
 
   const handleAddCompany = async () => {
     try {
+      const { name, city, postal_code } = newCompany;
+
+      // Vérifier que le champ "name" n'est pas vide
+      if (name === "") {
+        console.error("Le champ 'Nom de l'entreprise' est obligatoire.");
+        return;
+      }
       const companyData = {
-        name: newCompany.name,
-        city: newCompany.city,
-        postal_code: newCompany.postal_code,
-        produit: "crm", 
-        effectif: "50", 
-        secteur: "TEST",
-        statut: "customer",
+        company: {
+          addresses: [
+            {
+              city: city,
+              postal_code: postal_code
+            }
+          ],
+          name: name,
+
+        }
       };
+      
       console.log("Données de l'entreprise :", companyData);
       await addCompany(companyData);
       console.log("Entreprise ajoutée");
     } catch (error) {
+      console.log(error.response.data)
       console.error("Erreur lors de l'ajout de l'entreprise :", error);
     }
   };
@@ -46,20 +58,33 @@ const AddCompanies = () => {
         style={styles.input}
         placeholder="Nom de l'entreprise"
         value={newCompany.name}
-        onChangeText={(text) => setNewCompany({ ...newCompany, name: text })}
+        onChangeText={(text) =>
+          setNewCompany({
+            ...newCompany,
+            name: text,
+          })
+        }
       />
       <TextInput
         style={styles.input}
         placeholder="Ville"
         value={newCompany.city}
-        onChangeText={(text) => setNewCompany({ ...newCompany, city: text })}
+        onChangeText={(text) =>
+          setNewCompany({
+            ...newCompany,
+            city: text,
+          })
+        }
       />
       <TextInput
         style={styles.input}
         placeholder="Code postal"
         value={newCompany.postal_code}
         onChangeText={(text) =>
-          setNewCompany({ ...newCompany, postal_code: text })
+          setNewCompany({
+            ...newCompany,
+            postal_code: text,
+          })
         }
       />
       <Button mode="outlined" onPress={handleAddCompany}>
