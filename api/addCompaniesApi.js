@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const rootEndpoint =
-  "https://app.idfuse.fr/api/crm/company?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78&api=1";
+  "https://app.idfuse.fr/api/crm/company?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78";
 
 export class Company {
   constructor(id, name, city, postal_code) {

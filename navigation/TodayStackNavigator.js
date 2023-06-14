@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { screenOptions } from "../theme/styles";
-import AddCompanies from "../components/AddCompanies";
+import Search from "../components/Search";
 
 const TodayStack = createStackNavigator();
 
@@ -9,9 +9,9 @@ const TodayStackNavigator = () => {
   return (
     <TodayStack.Navigator initialRouteName="Today" screenOptions={screenOptions}>
       <TodayStack.Screen
-        name="AddCompanies"
-        component={AddCompanies}
-        options={{ title: "AddCompanies" , headerShown: false}}
+        name="Search"
+        component={Search}
+        options={{ title: "Search" , headerShown: false}}
       />
     </TodayStack.Navigator>
   );
