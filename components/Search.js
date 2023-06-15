@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
+const Tab = createMaterialTopTabNavigator();
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,18 +22,22 @@ const Search = () => {
     if (value.length > 2) {
       try {
         const response = await fetch(
-          `https://app.idfuse.fr/api/search?q=${searchTerm}&api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78`
+          `https://app.idfuse.fr/api/search?q=${value}&api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78`
         );
         const data = await response.json();
 
         const filteredResults = data.result.filter((item) =>
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+          item.name.toLowerCase().includes(value.toLowerCase())
         );
         setSearchResults(filteredResults);
       } catch (error) {
         console.error("Erreur lors de la recherche :", error);
       }
     }
+  };
+
+  const renderItem = ({ item }) => {
+    return <Text style={styles.item}>{item.name}</Text>;
   };
 
   return (
@@ -42,98 +49,89 @@ const Search = () => {
         onChangeText={(value) => handleSearch(value)}
       />
       {searchResults.length > 0 && searchTerm.length >= 3 ? (
-        <View>
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => {
-              if (item.type === "company") {
-                return <Text style={styles.item}>{item.name}</Text>;
-              }
-              return null;
-            }}
-            ListHeaderComponent={<Text>Entreprises :</Text>}
-          />
+        <Tab.Navigator>
+          <Tab.Screen name="Entreprises">
+            {() => (
+              <FlatList
+                data={searchResults.filter((item) => item.type === "company")}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+              />
+            )}
+          </Tab.Screen>
 
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => {
-              if (item.type === "list") {
-                return <Text style={styles.item}>{item.name}</Text>;
-              }
-              return null;
-            }}
-            ListHeaderComponent={<Text>Listes :</Text>}
-          />
+          <Tab.Screen name="Listes">
+            {() => (
+              <FlatList
+                data={searchResults.filter((item) => item.type === "list")}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+              />
+            )}
+          </Tab.Screen>
 
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => {
-              if (item.type === "email_list") {
-                return <Text style={styles.item}>{item.name}</Text>;
-              }
-              return null;
-            }}
-            ListHeaderComponent={<Text>Liste d'email :</Text>}
-          />
+          <Tab.Screen name="Liste d'email">
+            {() => (
+              <FlatList
+                data={searchResults.filter(
+                  (item) => item.type === "email_list"
+                )}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+              />
+            )}
+          </Tab.Screen>
 
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => {
-              if (item.type === "email_contact") {
-                return <Text style={styles.item}>{item.name}</Text>;
-              }
-              return null;
-            }}
-            ListHeaderComponent={<Text>Mail :</Text>}
-          />
+          <Tab.Screen name="Mail">
+            {() => (
+              <FlatList
+                data={searchResults.filter(
+                  (item) => item.type === "email_contact"
+                )}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+              />
+            )}
+          </Tab.Screen>
 
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => {
-              if (item.type === "contact") {
-                return <Text style={styles.item}>{item.name}</Text>;
-              }
-              return null;
-            }}
-            ListHeaderComponent={<Text>Contact :</Text>}
-          />
+          <Tab.Screen name="Contact">
+            {() => (
+              <FlatList
+                data={searchResults.filter((item) => item.type === "contact")}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+              />
+            )}
+          </Tab.Screen>
 
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => {
-              if (item.type === "campaign") {
-                return <Text style={styles.item}>{item.name}</Text>;
-              }
-              return null;
-            }}
-            ListHeaderComponent={<Text>Campagnes :</Text>}
-          />
+          <Tab.Screen name="Campagnes">
+            {() => (
+              <FlatList
+                data={searchResults.filter((item) => item.type === "campaign")}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+              />
+            )}
+          </Tab.Screen>
 
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => {
-              if (
-                item.type != "company" &&
-                item.type != "list" &&
-                item.type != "email_list" &&
-                item.type != "email_contact" &&
-                item.type != "contact" &&
-                item.type != "campaign"
-              ) {
-                return <Text style={styles.item}>{item.name}</Text>;
-              }
-              return null;
-            }}
-            ListHeaderComponent={<Text>Autres :</Text>}
-          />
-        </View>
+          <Tab.Screen name="Autres">
+            {() => (
+              <FlatList
+                data={searchResults.filter(
+                  (item) =>
+                    item.type !== "company" &&
+                    item.type !== "list" &&
+                    item.type !== "email_list" &&
+                    item.type !== "email_contact" &&
+                    item.type !== "contact" &&
+                    item.type !== "campaign"
+                )}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+              />
+            )}
+          </Tab.Screen>
+        </Tab.Navigator>
       ) : (
         <Text>Aucun résultat trouvé.</Text>
       )}
@@ -147,6 +145,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    marginBottom: 300,
     backgroundColor: "#fff",
   },
   input: {
