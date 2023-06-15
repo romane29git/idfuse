@@ -9,6 +9,31 @@ import {
   ScrollView,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+const CompanyIcon = ({ color }) => (
+  <MaterialCommunityIcons name="domain" color={color} size={20} />
+);
+
+const ContactIcon = ({ color }) => (
+  <MaterialCommunityIcons name="account-box" color={color} size={20} />
+);
+
+const ListIcon = ({ color }) => (
+  <MaterialCommunityIcons name="format-list-bulleted" color={color} size={20} />
+);
+
+const EmailListIcon = ({ color }) => (
+  <MaterialCommunityIcons name="contacts" color={color} size={20} />
+);
+
+const EmailIcon = ({ color }) => (
+  <MaterialCommunityIcons name="card-account-mail" color={color} size={20} />
+);
+
+const CampaignIcon = ({ color }) => (
+  <MaterialCommunityIcons name="clipboard-file" color={color} size={20} />
+);
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -50,17 +75,40 @@ const Search = () => {
       />
       {searchResults.length > 0 && searchTerm.length >= 3 ? (
         <Tab.Navigator>
-          <Tab.Screen name="Entreprises">
+          <Tab.Screen name="ALL">
+            {() => (
+              <FlatList
+                data={searchResults}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+                style={{ flex: 1 }}
+              />
+            )}
+          </Tab.Screen>
+          <Tab.Screen
+            name="Entreprises"
+            options={{
+              tabBarIcon: CompanyIcon,
+              tabBarLabel: () => null,
+            }}
+          >
             {() => (
               <FlatList
                 data={searchResults.filter((item) => item.type === "company")}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
+                style={{ flex: 1 }}
               />
             )}
           </Tab.Screen>
 
-          <Tab.Screen name="Listes">
+          <Tab.Screen
+            name="Listes"
+            options={{
+              tabBarIcon: ListIcon,
+              tabBarLabel: () => null,
+            }}
+          >
             {() => (
               <FlatList
                 data={searchResults.filter((item) => item.type === "list")}
@@ -70,7 +118,13 @@ const Search = () => {
             )}
           </Tab.Screen>
 
-          <Tab.Screen name="Liste d'email">
+          <Tab.Screen
+            name="Liste d'email"
+            options={{
+              tabBarIcon: EmailListIcon,
+              tabBarLabel: () => null,
+            }}
+          >
             {() => (
               <FlatList
                 data={searchResults.filter(
@@ -82,7 +136,13 @@ const Search = () => {
             )}
           </Tab.Screen>
 
-          <Tab.Screen name="Mail">
+          <Tab.Screen
+            name="Mail"
+            options={{
+              tabBarIcon: EmailIcon,
+              tabBarLabel: () => null,
+            }}
+          >
             {() => (
               <FlatList
                 data={searchResults.filter(
@@ -94,7 +154,13 @@ const Search = () => {
             )}
           </Tab.Screen>
 
-          <Tab.Screen name="Contact">
+          <Tab.Screen
+            name="Contact"
+            options={{
+              tabBarIcon: ContactIcon,
+              tabBarLabel: () => null,
+            }}
+          >
             {() => (
               <FlatList
                 data={searchResults.filter((item) => item.type === "contact")}
@@ -104,28 +170,16 @@ const Search = () => {
             )}
           </Tab.Screen>
 
-          <Tab.Screen name="Campagnes">
+          <Tab.Screen
+            name="Campagnes"
+            options={{
+              tabBarIcon: CampaignIcon,
+              tabBarLabel: () => null,
+            }}
+          >
             {() => (
               <FlatList
                 data={searchResults.filter((item) => item.type === "campaign")}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderItem}
-              />
-            )}
-          </Tab.Screen>
-
-          <Tab.Screen name="Autres">
-            {() => (
-              <FlatList
-                data={searchResults.filter(
-                  (item) =>
-                    item.type !== "company" &&
-                    item.type !== "list" &&
-                    item.type !== "email_list" &&
-                    item.type !== "email_contact" &&
-                    item.type !== "contact" &&
-                    item.type !== "campaign"
-                )}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
               />
@@ -154,17 +208,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     paddingHorizontal: 8,
-  },
-  button: {
-    backgroundColor: "#2980b9",
-    paddingVertical: 12,
-    borderRadius: 6,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    textAlign: "center",
-    fontWeight: "bold",
   },
   item: {
     fontSize: 16,
