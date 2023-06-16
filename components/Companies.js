@@ -13,15 +13,32 @@ import { Image } from "react-native";
 const Companies = () => {
   const [companies, setCompanies] = useState(null);
   const navigation = useNavigation();
+  const [filter, setFilter] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       const fetchedCompanies = await companiesApi.fetchCompanies();
-      setCompanies(fetchedCompanies);
+      let sortedCompanies = [...fetchedCompanies];
+
+      if (filter === "alphabetical") {
+        sortedCompanies.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (filter === "ascending") {
+        sortedCompanies.sort((a, b) => a.id - b.id);
+      } else if (filter === "descending") {
+        sortedCompanies.sort((a, b) => b.id - a.id);
+      } else if (filter === "statut") {
+        sortedCompanies.sort((a, b) => {
+          const statutOrderA = a.statut === "customer" ? 1 : 0;
+          const statutOrderB = b.statut === "customer" ? 1 : 0;
+          return statutOrderB - statutOrderA;
+        });
+      }
+
+      setCompanies(sortedCompanies);
     }
 
     fetchData();
-  }, []);
+  }, [filter]);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handlePress(item)}>
@@ -53,17 +70,46 @@ const Companies = () => {
     navigation.navigate("Company", { id: item.id, name: item.name });
   };
 
+  const handleAlphabeticalFilter = () => {
+    setFilter("alphabetical");
+  };
+
+  const handleAscendingFilter = () => {
+    setFilter("ascending");
+  };
+
+  const handleDescendingFilter = () => {
+    setFilter("descending");
+  };
+
+  const handleStatutFilter = () => {
+    setFilter("statut");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Liste des entreprises</Text>
+      <View style={styles.filterContainer}>
+        <TouchableOpacity onPress={handleAlphabeticalFilter}>
+          <Text>Alphabétique</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleAscendingFilter}>
+          <Text>Croissant</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleDescendingFilter}>
+          <Text>Décroissant</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleStatutFilter}>
+          <Text>Statut</Text>
+        </TouchableOpacity>
+      </View>
+
       <View>
-        <View>
-          <FlatList
-            data={companies}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id.toString()}
-          ></FlatList>
-        </View>
+        <FlatList
+          data={companies}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+        ></FlatList>
       </View>
     </View>
   );
@@ -129,5 +175,10 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 5,
+  },
+  filterContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 10,
   },
 });
