@@ -32,6 +32,17 @@ const Companies = () => {
           const statutOrderB = b.statut === "customer" ? 1 : 0;
           return statutOrderB - statutOrderA;
         });
+      } else if (filter === "city") {
+        sortedCompanies.sort((a, b) => {
+          if (a.city && b.city) {
+            return a.city.localeCompare(b.city);
+          } else if (a.city) {
+            return -1;
+          } else if (b.city) {
+            return 1;
+          }
+          return 0;
+        });
       }
 
       setCompanies(sortedCompanies);
@@ -86,6 +97,10 @@ const Companies = () => {
     setFilter("statut");
   };
 
+  const handleCityFilter = () => {
+    setFilter("city");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Liste des entreprises</Text>
@@ -101,6 +116,9 @@ const Companies = () => {
         </TouchableOpacity>
         <TouchableOpacity onPress={handleStatutFilter}>
           <Text>Statut</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleCityFilter}>
+          <Text>Ville</Text>
         </TouchableOpacity>
       </View>
 
