@@ -8,7 +8,7 @@ import {
 import React, { useState, useEffect } from "react";
 import companiesApi from "../api/companiesApi";
 import { useNavigation } from "@react-navigation/native";
-import { Image } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Companies = () => {
   const [companies, setCompanies] = useState(null);
@@ -20,22 +20,37 @@ const Companies = () => {
       const fetchedCompanies = await companiesApi.fetchCompanies();
       let sortedCompanies = [...fetchedCompanies];
 
-      if (filter === "alphabetical") {
+      if (filter === "alphaasc") {
         sortedCompanies.sort((a, b) => a.name.localeCompare(b.name));
-      } else if (filter === "ascending") {
-        sortedCompanies.sort((a, b) => a.id - b.id);
-      } else if (filter === "descending") {
-        sortedCompanies.sort((a, b) => b.id - a.id);
-      } else if (filter === "statut") {
+      } else if (filter === "alphadesc") {
+        sortedCompanies.sort((a, b) => b.name.localeCompare(a.name));
+      } else if (filter === "statutasc") {
         sortedCompanies.sort((a, b) => {
           const statutOrderA = a.statut === "customer" ? 1 : 0;
           const statutOrderB = b.statut === "customer" ? 1 : 0;
           return statutOrderB - statutOrderA;
         });
-      } else if (filter === "city") {
+      } else if (filter === "statutdesc") {
+        sortedCompanies.sort((a, b) => {
+          const statutOrderA = a.statut === "customer" ? 1 : 0;
+          const statutOrderB = b.statut === "customer" ? 1 : 0;
+          return statutOrderA - statutOrderB;
+        });
+      } else if (filter === "cityasc") {
         sortedCompanies.sort((a, b) => {
           if (a.city && b.city) {
             return a.city.localeCompare(b.city);
+          } else if (a.city) {
+            return -1;
+          } else if (b.city) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (filter === "citydesc") {
+        sortedCompanies.sort((a, b) => {
+          if (a.city && b.city) {
+            return b.city.localeCompare(a.city);
           } else if (a.city) {
             return -1;
           } else if (b.city) {
@@ -81,44 +96,92 @@ const Companies = () => {
     navigation.navigate("Company", { id: item.id, name: item.name });
   };
 
-  const handleAlphabeticalFilter = () => {
-    setFilter("alphabetical");
+  const handleAlphaAscFilter = () => {
+    setFilter("alphaasc");
   };
 
-  const handleAscendingFilter = () => {
-    setFilter("ascending");
+  const handleAlphaDescFilter = () => {
+    setFilter("alphadesc");
   };
 
-  const handleDescendingFilter = () => {
-    setFilter("descending");
+  const handleStatutAscFilter = () => {
+    setFilter("statutasc");
   };
 
-  const handleStatutFilter = () => {
-    setFilter("statut");
+  const handleStatutDescFilter = () => {
+    setFilter("statutdesc");
   };
 
-  const handleCityFilter = () => {
-    setFilter("city");
+  const handleCityAscFilter = () => {
+    setFilter("cityasc");
+  };
+
+  const handleCityDescFilter = () => {
+    setFilter("citydesc");
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Liste des entreprises</Text>
       <View style={styles.filterContainer}>
-        <TouchableOpacity onPress={handleAlphabeticalFilter}>
-          <Text>Alphabétique</Text>
+        <TouchableOpacity>
+          <View style={styles.filterItem}>
+            <Text style={styles.filterText}>Nom</Text>
+            <View style={styles.arrowContainer}>
+              <TouchableOpacity onPress={handleAlphaAscFilter}>
+                <MaterialCommunityIcons
+                  name="arrow-up"
+                  style={styles.arrowIcon}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleAlphaDescFilter}>
+                <MaterialCommunityIcons
+                  name="arrow-down"
+                  style={styles.arrowIcon}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleAscendingFilter}>
-          <Text>Croissant</Text>
+
+        <TouchableOpacity>
+          <View style={styles.filterItem}>
+            <Text style={styles.filterText}>Statut</Text>
+            <View style={styles.arrowContainer}>
+              <TouchableOpacity onPress={handleStatutAscFilter}>
+                <MaterialCommunityIcons
+                  name="arrow-up"
+                  style={styles.arrowIcon}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleStatutDescFilter}>
+                <MaterialCommunityIcons
+                  name="arrow-down"
+                  style={styles.arrowIcon}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleDescendingFilter}>
-          <Text>Décroissant</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleStatutFilter}>
-          <Text>Statut</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleCityFilter}>
-          <Text>Ville</Text>
+
+        <TouchableOpacity>
+          <View style={styles.filterItem}>
+            <Text style={styles.filterText}>Ville</Text>
+            <View style={styles.arrowContainer}>
+              <TouchableOpacity onPress={handleCityAscFilter}>
+                <MaterialCommunityIcons
+                  name="arrow-up"
+                  style={styles.arrowIcon}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleCityDescFilter}>
+                <MaterialCommunityIcons
+                  name="arrow-down"
+                  style={styles.arrowIcon}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </TouchableOpacity>
       </View>
 
@@ -195,8 +258,28 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   filterContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     marginBottom: 10,
   },
+  filterItem: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  filterText: {
+    fontSize : 16,
+    marginRight: 5,
+    fontWeight: 'bold',
+  },
+  arrowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  arrowIcon: {
+    fontSize : 25,
+    marginLeft: 5,
+  },
 });
+
+
