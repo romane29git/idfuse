@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import CompanyApi from "../api/companyApi";
 import { useNavigation } from "@react-navigation/native";
-import Contact from "./Contact";
 import { Image } from "react-native";
 
 const companyApi = new CompanyApi();

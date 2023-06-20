@@ -5,6 +5,7 @@ import Search from "../components/Search";
 import Company from "../components/Company";
 import Contact from "../components/Contact";
 import Campaign from "../components/Campaign";
+import List from "../components/List";
 
 const TodayStack = createStackNavigator();
 
@@ -30,6 +31,11 @@ const TodayStackNavigator = () => {
         name="Campaign"
         component={Campaign}
         options={{ title: "Campaign" , headerShown: false}}
+      />
+       <TodayStack.Screen
+        name="List"
+        component={List}
+        options={{ title: "List" , headerShown: false}}
       />
     </TodayStack.Navigator>
   );

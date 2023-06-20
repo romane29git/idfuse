@@ -11,27 +11,32 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 
-const Campaign = () => {
-  const [campaign, setCampaign] = useState(null);
+const List = () => {
+  const [list, setList] = useState(null);
   const route = useRoute();
   const id = route.params.id;
   const name = route.params.name;
   const navigation = useNavigation();
 
   useEffect(() => {
-    const fetchCampaign = async () => {
+    const fetchList = async () => {
       try {
         const response = await axios.get(
-          `https://app.idfuse.fr/api/campaign/report/total/${id}?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78`
+          `https://app.idfuse.fr/api/list/view/${id}?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78`
         );
-        const fetchedCampaign = response.data;
-        setCampaign(fetchedCampaign);
+        const fetchedList = response.data;
+        setList(fetchedList);
+        console.log(list);
       } catch (error) {
-        console.error("Error fetching campaign:", error);
+        console.error("Error fetching list:", error);
       }
     };
-    fetchCampaign();
+    fetchList();
   }, [id]);
+
+  useEffect(() => {
+    console.log(list); // Affiche la valeur actuelle de list
+  }, [list]);
 
   return (
     <ScrollView style={styles.container}>
@@ -44,37 +49,23 @@ const Campaign = () => {
           style={styles.backArrow}
         />
       </TouchableOpacity>
-      {campaign && (
+      <Text style={styles.sectionTitle}>{name}</Text>
+      {list && list.fields && (
         <>
-          <Text style={styles.sectionTitle}>{name}</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Statut:</Text>
-            <Text
-              style={campaign.status === 1 ? styles.scheduled : styles.draft}
-            >
-              {campaign.status === 1 ? "Scheduled" : "Draft"}
-            </Text>
-          </View>
-          <Text style={styles.text}>Total Amount: {campaign.total_amt}</Text>
-          <Text style={styles.text}>Send Amount: {campaign.send_amt}</Text>
-          <Text style={styles.text}>Opens: {campaign.opens}</Text>
-          <Text style={styles.text}>Link Clicks: {campaign.linkclicks}</Text>
-          <Text style={styles.text}>
-            Subscriber Clicks: {campaign.subscriberclicks}
-          </Text>
-          <Text style={styles.text}>Unsubscribes: {campaign.unsubscribes}</Text>
-          <Text style={styles.text}>
-            Total Bounces: {campaign.totalbounces}
-          </Text>
-          <Text style={styles.text}>Soft Bounces: {campaign.softbounces}</Text>
-          <Text style={styles.text}>Hard Bounces: {campaign.hardbounces}</Text>
+          {list.fields.map((field, index) => (
+            <View key={index}>
+              <Text style={styles.contactText}>Titre : {field.title}</Text>
+              <Text style={styles.contactText}>Type : {field.type}</Text>
+              <Text style={styles.fieldText}>Tag : {field.tag}</Text>
+            </View>
+          ))}
         </>
       )}
     </ScrollView>
   );
 };
 
-export default Campaign;
+export default List;
 
 const styles = StyleSheet.create({
   container: {

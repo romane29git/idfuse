@@ -69,6 +69,8 @@ const Search = () => {
       navigation.navigate("Contact", { id: item.id, name: item.name });
     } else if (item.type === "campaign") {
       navigation.navigate("Campaign", { id: item.id, name: item.name });
+    } else if (item.type==='list'){
+      navigation.navigate("List", { id: item.id, name: item.name });
     }
   };
 
