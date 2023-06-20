@@ -111,7 +111,7 @@ const Company = ({ route }) => {
               <Text style={styles.contactText}>
                 Date : {invoice.invoice_date}
               </Text>
-              <Text style={styles.contactText}>Montant : {invoice.amount}</Text>
+              <Text style={styles.contactText}>Montant : {invoice.amount}€</Text>
             </View>
           ))}
         </>

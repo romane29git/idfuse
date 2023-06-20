@@ -63,6 +63,7 @@ const Search = () => {
   };
 
   const handleClick = (item) => {
+    console.log(item.type);
     if (item.type === "company") {
       navigation.navigate("Company", { id: item.id, name: item.name });
     } else if (item.type === "contact") {
@@ -71,7 +72,7 @@ const Search = () => {
       navigation.navigate("Campaign", { id: item.id, name: item.name });
     } else if (item.type==='list'){
       navigation.navigate("List", { id: item.id, name: item.name });
-    }
+    } 
   };
 
   const renderItem = ({ item }) => {
