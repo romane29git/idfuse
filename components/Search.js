@@ -6,10 +6,10 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const CompanyIcon = ({ color }) => (
   <MaterialCommunityIcons name="domain" color={color} size={20} />
@@ -40,6 +40,7 @@ const Tab = createMaterialTopTabNavigator();
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const navigation = useNavigation();
 
   const handleSearch = async (value) => {
     setSearchTerm(value);
@@ -61,8 +62,22 @@ const Search = () => {
     }
   };
 
+  const handleClick = (item) => {
+    if (item.type === "company") {
+      navigation.navigate("Company", { id: item.id, name: item.name });
+    } else if (item.type === "contact") {
+      navigation.navigate("Contact", { id: item.id, name: item.name });
+    } else if (item.type === "campaign") {
+      navigation.navigate("Campaign", { id: item.id, name: item.name });
+    }
+  };
+
   const renderItem = ({ item }) => {
-    return <Text style={styles.item}>{item.name}</Text>;
+    return (
+      <TouchableOpacity onPress={() => handleClick(item)}>
+        <Text style={styles.item}>{item.name}</Text>
+      </TouchableOpacity>
+    );
   };
 
   return (
