@@ -26,17 +26,12 @@ const List = () => {
         );
         const fetchedList = response.data;
         setList(fetchedList);
-        console.log(list);
       } catch (error) {
         console.error("Error fetching list:", error);
       }
     };
     fetchList();
   }, [id]);
-
-  useEffect(() => {
-    console.log(list); // Affiche la valeur actuelle de list
-  }, [list]);
 
   return (
     <ScrollView style={styles.container}>
@@ -50,17 +45,17 @@ const List = () => {
         />
       </TouchableOpacity>
       <Text style={styles.sectionTitle}>{name}</Text>
-      {list && list.fields && (
-        <>
-          {list.fields.map((field, index) => (
+      {list &&
+        list.fields &&
+        Object.values(list.fields).map((field, index) => {
+          return (
             <View key={index}>
               <Text style={styles.contactText}>Titre : {field.title}</Text>
               <Text style={styles.contactText}>Type : {field.type}</Text>
               <Text style={styles.fieldText}>Tag : {field.tag}</Text>
             </View>
-          ))}
-        </>
-      )}
+          );
+        })}
     </ScrollView>
   );
 };
