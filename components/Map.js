@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
-import { View, TouchableOpacity, Text } from "react-native";
+import { View } from "react-native";
 import MapView, { Marker, UrlTile } from "react-native-maps";
 
 const Map = ({ address }) => {
@@ -76,7 +76,7 @@ const Map = ({ address }) => {
 
 const styles = {
   container: {
-    flex:1,
+    flex: 1,
     width: "100%",
     overflow: "hidden",
   },

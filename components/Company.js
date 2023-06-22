@@ -223,10 +223,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 8,
     zIndex: 1,
+    elevation: 5,
   },
   closeButtonText: {
     color: "#333",
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
   },
