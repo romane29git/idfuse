@@ -5,6 +5,8 @@ import Companies from "../components/Companies";
 import Company from "../components/Company";
 import Contact from "../components/Contact";
 import Opportunity from "../components/Opportunity";
+import Map from "../components/Map";
+
 
 const ContactsStack = createStackNavigator();
 
@@ -33,6 +35,11 @@ const ContactsStackNavigator = () => {
         name="Opportunity"
         component={Opportunity}
         options={{ title: "Opportunity", headerShown: false }}
+      />
+      <ContactsStack.Screen
+        name="Map"
+        component={Map}
+        options={{ title: "Map", headerShown: false }}
       />
     </ContactsStack.Navigator>
   );

@@ -9,6 +9,8 @@ import {
 import CompanyApi from "../api/companyApi";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "react-native";
+import { Modal } from "react-native";
+import Map from "../components/Map";
 
 const companyApi = new CompanyApi();
 
@@ -16,6 +18,7 @@ const Company = ({ route }) => {
   const [company, setCompany] = useState(null);
   const companyId = route.params.id;
   const navigation = useNavigation();
+  const [isMapVisible, setIsMapVisible] = useState(false);
 
   useEffect(() => {
     async function fetchCompanyData() {
@@ -36,6 +39,7 @@ const Company = ({ route }) => {
 
   const handleAddress = (address) => {
     console.log(address);
+    setIsMapVisible(true);
   };
 
   return (
@@ -126,6 +130,23 @@ const Company = ({ route }) => {
       ) : (
         <Text>Loading company data...</Text>
       )}
+      <Modal
+        visible={isMapVisible}
+        transparent={true}
+        onRequestClose={() => setIsMapVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Map />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setIsMapVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Fermer</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -191,5 +212,32 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 5,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: "80%",
+    height: 400,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  closeButton: {
+    marginTop: 16,
+    backgroundColor: "#333",
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  closeButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
   },
 });
