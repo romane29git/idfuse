@@ -76,7 +76,7 @@ const Map = ({ address }) => {
 
 const styles = {
   container: {
-    aspectRatio: 1,
+    flex:1,
     width: "100%",
     overflow: "hidden",
   },

@@ -38,7 +38,6 @@ const Company = ({ route }) => {
   };
 
   const handleAddress = (address) => {
-    console.log(address);
     setIsMapVisible(true);
   };
 
@@ -139,14 +138,14 @@ const Company = ({ route }) => {
         onRequestClose={() => setIsMapVisible(false)}
       >
         <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setIsMapVisible(false)}
+          >
+            <Text style={styles.closeButtonText}>Fermer</Text>
+          </TouchableOpacity>
+          <View style={styles.mapContainer}>
             {company && company.address && <Map address={company.address} />}
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setIsMapVisible(false)}
-            >
-              <Text style={styles.closeButtonText}>Fermer</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -216,31 +215,32 @@ const styles = StyleSheet.create({
     height: 20,
     marginRight: 5,
   },
+  closeButton: {
+    position: "absolute",
+    top: 16,
+    right: 16,
+    backgroundColor: "#ccc",
+    borderRadius: 20,
+    padding: 8,
+    zIndex: 1,
+  },
+  closeButtonText: {
+    color: "#333",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  modalContent: {
-    width: "80%",
-    height: 400,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 16,
+  mapContainer: {
+    width: "100%",
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
-  },
-  closeButton: {
-    marginTop: 16,
-    backgroundColor: "#333",
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  closeButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    textAlign: "center",
+    zIndex: 0,
   },
 });
