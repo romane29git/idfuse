@@ -8,31 +8,29 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const CompanyIcon = ({ color }) => (
-  <MaterialCommunityIcons name="domain" color={color} size={20} />
+  <Icon name="building" size={20} color={color} />
+);
+
+const OpportunityIcon = ({ color }) => (
+  <Icon name="handshake" size={20} color={color} />
 );
 
 const ContactIcon = ({ color }) => (
-  <MaterialCommunityIcons name="account-box" color={color} size={20} />
+  <Icon name="users" color={color} size={20} />
 );
 
-const ListIcon = ({ color }) => (
-  <MaterialCommunityIcons name="format-list-bulleted" color={color} size={20} />
-);
+const ListIcon = ({ color }) => <Icon name="list" color={color} size={20} />;
 
 const EmailListIcon = ({ color }) => (
-  <MaterialCommunityIcons name="contacts" color={color} size={20} />
-);
-
-const EmailIcon = ({ color }) => (
-  <MaterialCommunityIcons name="card-account-mail" color={color} size={20} />
+  <Icon name="envelope" color={color} size={20} />
 );
 
 const CampaignIcon = ({ color }) => (
-  <MaterialCommunityIcons name="clipboard-file" color={color} size={20} />
+  <Icon name="mail-bulk" color={color} size={20} />
 );
 
 const Tab = createMaterialTopTabNavigator();
@@ -63,16 +61,15 @@ const Search = () => {
   };
 
   const handleClick = (item) => {
-    console.log(item.type);
     if (item.type === "company") {
       navigation.navigate("Company", { id: item.id, name: item.name });
     } else if (item.type === "contact") {
       navigation.navigate("Contact", { id: item.id, name: item.name });
     } else if (item.type === "campaign") {
       navigation.navigate("Campaign", { id: item.id, name: item.name });
-    } else if (item.type==='list'){
+    } else if (item.type === "list") {
       navigation.navigate("List", { id: item.id, name: item.name });
-    } 
+    }
   };
 
   const renderItem = ({ item }) => {
@@ -121,6 +118,23 @@ const Search = () => {
           </Tab.Screen>
 
           <Tab.Screen
+            name="Opportunités"
+            options={{
+              tabBarIcon: OpportunityIcon,
+              tabBarLabel: () => null,
+            }}
+          >
+            {() => (
+              <FlatList
+                data={searchResults.filter((item) => item.type === "opportunity")}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+                style={{ flex: 1 }}
+              />
+            )}
+          </Tab.Screen>
+
+          <Tab.Screen
             name="Listes"
             options={{
               tabBarIcon: ListIcon,
@@ -147,24 +161,6 @@ const Search = () => {
               <FlatList
                 data={searchResults.filter(
                   (item) => item.type === "email_list"
-                )}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderItem}
-              />
-            )}
-          </Tab.Screen>
-
-          <Tab.Screen
-            name="Mail"
-            options={{
-              tabBarIcon: EmailIcon,
-              tabBarLabel: () => null,
-            }}
-          >
-            {() => (
-              <FlatList
-                data={searchResults.filter(
-                  (item) => item.type === "email_contact"
                 )}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
