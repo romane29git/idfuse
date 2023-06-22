@@ -34,6 +34,10 @@ const Company = ({ route }) => {
     navigation.navigate("Contact", { id: contact.contactId });
   };
 
+  const handleAddress = (address) => {
+    console.log(address);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <TouchableOpacity
@@ -63,7 +67,9 @@ const Company = ({ route }) => {
           <Text style={styles.text}>
             Numéro de compte : {company.account_number}
           </Text>
-          <Text style={styles.text}>Adresse : {company.address}</Text>
+          <TouchableOpacity onPress={() => handleAddress(company.address)}>
+            <Text style={styles.text}>Adresse : {company.address}</Text>
+          </TouchableOpacity>
           <Text style={styles.text}>{company.nb_contacts} contact(s)</Text>
           {company.contacts.length > 0 && (
             <>
@@ -111,7 +117,9 @@ const Company = ({ route }) => {
               <Text style={styles.contactText}>
                 Date : {invoice.invoice_date}
               </Text>
-              <Text style={styles.contactText}>Montant : {invoice.amount}€</Text>
+              <Text style={styles.contactText}>
+                Montant : {invoice.amount}€
+              </Text>
             </View>
           ))}
         </>
