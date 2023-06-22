@@ -3,30 +3,32 @@ import { useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import MapView, { Marker, UrlTile } from "react-native-maps";
 
-const Map = () => {
+const Map = ({ address }) => {
   const mapRef = useRef(null);
   const [markerCoordinates, setMarkerCoordinates] = useState(null);
   const [initialRegion, setInitialRegion] = useState({
     latitude: 48.856,
     longitude: 2.352,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitudeDelta: 0.03,
+    longitudeDelta: 0.03,
   });
 
   useEffect(() => {
     if (markerCoordinates) {
       setInitialRegion({
         ...markerCoordinates,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
+        latitudeDelta: 0.03,
+        longitudeDelta: 0.03,
       });
     }
   }, [markerCoordinates]);
 
+  useEffect(() => {
+    handleGeocodeAddress();
+  }, []);
+
   const handleGeocodeAddress = async () => {
     try {
-      const address = "Bordeaux";
-
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
           address
@@ -60,7 +62,7 @@ const Map = () => {
         }
       >
         {markerCoordinates && (
-          <Marker coordinate={markerCoordinates} title="Adresse" />
+          <Marker coordinate={markerCoordinates} title={address} />
         )}
         <UrlTile
           urlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -68,10 +70,6 @@ const Map = () => {
           flipY={false}
         />
       </MapView>
-
-      {/* <TouchableOpacity onPress={handleGeocodeAddress}>
-        <Text>Ajouter un marqueur</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };
@@ -80,7 +78,6 @@ const styles = {
   container: {
     aspectRatio: 1,
     width: "100%",
-    backgroundColor: "#f6E",
     overflow: "hidden",
   },
   map: {

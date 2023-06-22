@@ -71,9 +71,11 @@ const Company = ({ route }) => {
           <Text style={styles.text}>
             Numéro de compte : {company.account_number}
           </Text>
-          <TouchableOpacity onPress={() => handleAddress(company.address)}>
-            <Text style={styles.text}>Adresse : {company.address}</Text>
-          </TouchableOpacity>
+          {company && company.address && (
+            <TouchableOpacity onPress={() => handleAddress(company.address)}>
+              <Text style={styles.text}>Adresse : {company.address}</Text>
+            </TouchableOpacity>
+          )}
           <Text style={styles.text}>{company.nb_contacts} contact(s)</Text>
           {company.contacts.length > 0 && (
             <>
@@ -130,6 +132,7 @@ const Company = ({ route }) => {
       ) : (
         <Text>Loading company data...</Text>
       )}
+
       <Modal
         visible={isMapVisible}
         transparent={true}
@@ -137,7 +140,7 @@ const Company = ({ route }) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Map />
+            {company && company.address && <Map address={company.address} />}
             <TouchableOpacity
               style={styles.closeButton}
               onPress={() => setIsMapVisible(false)}
