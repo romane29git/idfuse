@@ -5,7 +5,7 @@ import { Image } from "react-native";
 import { Modal } from "react-native";
 import Map from "../components/Map";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 import CompanyApi from "../api/companyApi";
 
@@ -41,7 +41,6 @@ const Company = ({ route }) => {
 
   const ContactTab = () => {
     const contacts = company ? company.contacts : [];
-    const notificationCount = contacts.length;
 
     return (
       <View style={styles.tabContainer}>
@@ -66,7 +65,6 @@ const Company = ({ route }) => {
 
   const EventTab = () => {
     const events = company ? company.events : [];
-    const notificationCount = events.length;
 
     return (
       <View style={styles.tabContainer}>
@@ -92,7 +90,6 @@ const Company = ({ route }) => {
 
   const InvoiceTab = () => {
     const invoices = company ? company.invoices : [];
-    const notificationCount = invoices.length;
 
     return (
       <View style={styles.tabContainer}>
@@ -107,6 +104,9 @@ const Company = ({ route }) => {
               <Text style={styles.contactText}>
                 Montant : {invoice.amount}€
               </Text>
+              <TouchableOpacity>
+                <Icon name={"file-pdf"} size={28} color={"red"} />
+              </TouchableOpacity>
             </View>
           ))
         ) : (
@@ -130,7 +130,7 @@ const Company = ({ route }) => {
         notificationCount = company?.events?.length || 0;
         break;
       case "Factures":
-        iconName = "euro";
+        iconName = "euro-sign";
         notificationCount = company?.invoices?.length || 0;
         break;
     }
