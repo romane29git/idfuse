@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import CompanyApi from "../api/companyApi";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "react-native";
 import { Modal } from "react-native";
 import Map from "../components/Map";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import Icon from "react-native-vector-icons/FontAwesome";
+
+import CompanyApi from "../api/companyApi";
 
 const companyApi = new CompanyApi();
+const Tab = createMaterialTopTabNavigator();
 
 const Company = ({ route }) => {
   const [company, setCompany] = useState(null);
@@ -41,8 +39,106 @@ const Company = ({ route }) => {
     setIsMapVisible(true);
   };
 
+  const ContactTab = () => {
+    const contacts = company ? company.contacts : [];
+
+    return (
+      <View style={styles.tabContainer}>
+        {contacts.length > 0 ? (
+          contacts.map((contact, index) => (
+            <TouchableOpacity key={index} onPress={() => handlePress(contact)}>
+              <View style={styles.contactContainer}>
+                <Text style={styles.contactText}>
+                  Prénom : {contact.firstName}
+                </Text>
+                <Text style={styles.contactText}>Nom : {contact.lastName}</Text>
+                <Text style={styles.contactText}>Email : {contact.email}</Text>
+              </View>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Text>Aucun contact disponible</Text>
+        )}
+      </View>
+    );
+  };
+
+  const EventTab = () => {
+    const events = company ? company.events : [];
+
+    return (
+      <View style={styles.tabContainer}>
+        {events.length > 0 ? (
+          events.map((event, index) => (
+            <View key={index} style={styles.contactContainer}>
+              <Text style={styles.contactText}>Event : {event.event_name}</Text>
+              <Text style={styles.contactText}>
+                Date de début : {event.event_date_start}
+              </Text>
+              <Text style={styles.contactText}>
+                Date de fin : {event.event_date_end}
+              </Text>
+              <Text style={styles.contactText}>Type : {event.event_type}</Text>
+            </View>
+          ))
+        ) : (
+          <Text>Aucun événement disponible</Text>
+        )}
+      </View>
+    );
+  };
+
+  const InvoiceTab = () => {
+    const invoices = company ? company.invoices : [];
+
+    return (
+      <View style={styles.tabContainer}>
+        {invoices.length > 0 ? (
+          invoices.map((invoice, index) => (
+            <View key={index} style={styles.contactContainer}>
+              <Text style={styles.contactText}>Numéro : {invoice.number}</Text>
+              <Text style={styles.contactText}>Statut : {invoice.status}</Text>
+              <Text style={styles.contactText}>
+                Date : {invoice.invoice_date}
+              </Text>
+              <Text style={styles.contactText}>
+                Montant : {invoice.amount}€
+              </Text>
+            </View>
+          ))
+        ) : (
+          <Text>Aucune facture disponible</Text>
+        )}
+      </View>
+    );
+  };
+
+  const getTabBarIcon = (route, focused) => {
+    let iconName;
+
+    switch (route.name) {
+      case "Contacts":
+        iconName = "users";
+        break;
+      case "Events":
+        iconName = "calendar";
+        break;
+      case "Factures":
+        iconName = "euro";
+        break;
+    }
+
+    return (
+      <Icon
+        name={iconName}
+        size={focused ? 24 : 20}
+        color={focused ? "#333" : "#888"}
+      />
+    );
+  };
+
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => navigation.goBack()}
@@ -76,61 +172,21 @@ const Company = ({ route }) => {
             </TouchableOpacity>
           )}
           <Text style={styles.text}>{company.nb_contacts} contact(s)</Text>
-          {company.contacts.length > 0 && (
-            <>
-              <Text style={styles.title}>Liste des contacts :</Text>
-            </>
-          )}
-          {company.contacts.map((contact, index) => (
-            <TouchableOpacity key={index} onPress={() => handlePress(contact)}>
-              <View key={index} style={styles.contactContainer}>
-                <Text style={styles.contactText}>
-                  Prénom : {contact.firstName}
-                </Text>
-                <Text style={styles.contactText}>Nom : {contact.lastName}</Text>
-                <Text style={styles.contactText}>Email : {contact.email}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-          {company.events.length > 0 && (
-            <>
-              <Text style={styles.title}>Listes des events : </Text>
-            </>
-          )}
-          {company.events.map((event, index) => (
-            <View key={index} style={styles.contactContainer}>
-              <Text style={styles.contactText}>Event : {event.event_name}</Text>
-              <Text style={styles.contactText}>
-                Date de début : {event.event_date_start}
-              </Text>
-              <Text style={styles.contactText}>
-                Date de fin : {event.event_date_end}
-              </Text>
-              <Text style={styles.contactText}>Type : {event.event_type}</Text>
-            </View>
-          ))}
-
-          {company.invoices.length > 0 && (
-            <>
-              <Text style={styles.title}>Listes des factures : </Text>
-            </>
-          )}
-          {company.invoices.map((invoice, index) => (
-            <View key={index} style={styles.contactContainer}>
-              <Text style={styles.contactText}>Numéro : {invoice.number}</Text>
-              <Text style={styles.contactText}>Statut : {invoice.status}</Text>
-              <Text style={styles.contactText}>
-                Date : {invoice.invoice_date}
-              </Text>
-              <Text style={styles.contactText}>
-                Montant : {invoice.amount}€
-              </Text>
-            </View>
-          ))}
         </>
       ) : (
         <Text>Loading company data...</Text>
       )}
+
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused }) => getTabBarIcon(route, focused),
+          tabBarLabel: () => null,
+        })}
+      >
+        <Tab.Screen name="Contacts" component={ContactTab} />
+        <Tab.Screen name="Events" component={EventTab} />
+        <Tab.Screen name="Factures" component={InvoiceTab} />
+      </Tab.Navigator>
 
       <Modal
         visible={isMapVisible}
@@ -149,7 +205,7 @@ const Company = ({ route }) => {
           </View>
         </View>
       </Modal>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -183,12 +239,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     color: "#333",
     textAlign: "center",
-  },
-  title: {
-    fontSize: 19,
-    marginBottom: 8,
-    color: "#333",
-    fontWeight: "bold",
   },
   customer: {
     backgroundColor: "#1ccf60",
@@ -243,5 +293,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     zIndex: 0,
+  },
+  tabContainer: {
+    flex: 1,
+    padding: 16,
+  },
+  tabBar: {
+    backgroundColor: "#fff",
+  },
+  tabIndicator: {
+    backgroundColor: "#333",
+  },
+  tab: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 8,
+  },
+  tabText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  activeTabText: {
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
