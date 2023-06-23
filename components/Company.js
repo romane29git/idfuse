@@ -41,6 +41,7 @@ const Company = ({ route }) => {
 
   const ContactTab = () => {
     const contacts = company ? company.contacts : [];
+    const notificationCount = contacts.length;
 
     return (
       <View style={styles.tabContainer}>
@@ -65,6 +66,7 @@ const Company = ({ route }) => {
 
   const EventTab = () => {
     const events = company ? company.events : [];
+    const notificationCount = events.length;
 
     return (
       <View style={styles.tabContainer}>
@@ -90,6 +92,7 @@ const Company = ({ route }) => {
 
   const InvoiceTab = () => {
     const invoices = company ? company.invoices : [];
+    const notificationCount = invoices.length;
 
     return (
       <View style={styles.tabContainer}>
@@ -115,25 +118,36 @@ const Company = ({ route }) => {
 
   const getTabBarIcon = (route, focused) => {
     let iconName;
+    let notificationCount = 0;
 
     switch (route.name) {
       case "Contacts":
         iconName = "users";
+        notificationCount = company?.contacts?.length || 0;
         break;
       case "Events":
         iconName = "calendar";
+        notificationCount = company?.events?.length || 0;
         break;
       case "Factures":
         iconName = "euro";
+        notificationCount = company?.invoices?.length || 0;
         break;
     }
 
     return (
-      <Icon
-        name={iconName}
-        size={focused ? 24 : 20}
-        color={focused ? "#333" : "#888"}
-      />
+      <View>
+        <Icon
+          name={iconName}
+          size={focused ? 24 : 20}
+          color={focused ? "#333" : "#888"}
+        />
+        {notificationCount > 0 && (
+          <View style={styles.iconBadge}>
+            <Text style={styles.iconBadgeText}>{notificationCount}</Text>
+          </View>
+        )}
+      </View>
     );
   };
 
@@ -317,6 +331,37 @@ const styles = StyleSheet.create({
   activeTabText: {
     fontSize: 16,
     color: "#fff",
+  },
+  notificationBadge: {
+    position: "absolute",
+    top: -8,
+    right: -8,
+    backgroundColor: "red",
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  notificationText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  iconBadge: {
+    position: "absolute",
+    top: -8,
+    right: -8,
+    backgroundColor: "red",
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  iconBadgeText: {
+    color: "#fff",
+    fontSize: 12,
     fontWeight: "bold",
   },
 });
