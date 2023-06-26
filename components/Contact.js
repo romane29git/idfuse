@@ -7,7 +7,6 @@ import {
   Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import ContactApi from "../api/ContactApi";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";

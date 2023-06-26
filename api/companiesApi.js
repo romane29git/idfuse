@@ -18,7 +18,6 @@ export class Company {
 
 export async function addCompany(newCompany) {
   try {
-    console.log("coucou", newCompany);
     const response = await axios.post(
       "https://app.idfuse.fr/api/crm/company?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78",
       {
