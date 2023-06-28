@@ -1,27 +1,35 @@
-import axios from "axios";
-
 const rootEndpoint =
   "https://app.idfuse.fr/api/crm/company?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78";
 
 export class Company {
-  constructor(id, name, address) {
+  constructor(id, name, street, city, postal_code, country) {
     this.id = id;
     this.name = name;
-    this.address = address;
+    this.addresses = [
+      {
+        street: street,
+        city: city,
+        postal_code: postal_code,
+        country: country,
+      },
+    ];
   }
 }
 
-export async function addCompany(newCompany) {
+export default async function addCompany(newCompany) {
   try {
     console.log("Données de l'entreprise à ajouter :", newCompany);
-    const response = await axios.post(rootEndpoint, newCompany, {
+
+    const response = await fetch(rootEndpoint, {
+      method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json",
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
+      body: JSON.stringify(newCompany),
     });
 
-    if (response.status === 200) {
+    if (response.ok) {
       console.log("Entreprise ajoutée avec succès");
     } else {
       throw new Error(
@@ -37,35 +45,46 @@ export async function addCompany(newCompany) {
 
 class AddCompaniesApi {
   async fetchCompanies() {
-    const response = await this.fetchFromApi(rootEndpoint);
+    const companies = await this.fetchFromApi(rootEndpoint);
 
-    if (response && typeof response === "object") {
-      const companies = response.companies;
+    if (companies && Array.isArray(companies)) {
       return this.createCompanies(companies);
     } else {
-      console.error("Invalid API response:", response);
+      console.error("Invalid API response:", companies);
       return [];
     }
   }
 
-  async fetchFromApi(query) {
-    console.log(`Fetching API with query ${query}`);
+  async fetchFromApi(endpoint, method = "POST", body = null) {
+    console.log(`Fetching API endpoint: ${endpoint}`);
     try {
-      const response = await axios.get(query, {
+      const options = {
+        method: method,
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Accept": "application/json",
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        
-      });
-      return response.data;
-    } catch (e) {
-      console.error(e);
+        body: body ? JSON.stringify(body) : null,
+      };
+
+      const response = await fetch(endpoint, options);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Erreur lors de la récupération des entreprises :", error);
+      throw error;
     }
   }
 
   createCompany(company) {
-    return new Company(company.id, company.name, company.address);
+    return new Company(
+      company.id,
+      company.name,
+      company.street,
+      company.city,
+      company.postal_code,
+      company.country
+    );
   }
 
   createCompanies(companies) {
@@ -78,22 +97,15 @@ class AddCompaniesApi {
   }
 
   async getCompanyById(id) {
-    const response = await this.fetchFromApi(`${rootEndpoint}&id=${id}`);
-
-    if (response && typeof response === "object") {
-      const company = response.company;
+    const endpoint = `${rootEndpoint}&id=${id}`;
+    const company = await this.fetchFromApi(endpoint);
+    if (company) {
       return this.createCompany(company);
     } else {
-      console.error("Invalid API response:", response);
+      console.error("Invalid API response:", company);
       return null;
     }
   }
 }
 
-export async function getCompanyById(id) {
-  const api = new AddCompaniesApi();
-  const company = await api.getCompanyById(id);
-  return company;
-}
-
-export default new AddCompaniesApi();
+export const companiesApiInstance = new AddCompaniesApi();
