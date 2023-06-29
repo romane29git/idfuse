@@ -2,7 +2,7 @@ const rootEndpoint =
   "https://app.idfuse.fr/api/crm/company?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78";
 
 export class Company {
-  constructor(id, name, street, city, postal_code, country) {
+  constructor(id, name, street, city, postal_code, country, customer_address) {
     this.id = id;
     this.name = name;
     this.addresses = [
@@ -11,6 +11,7 @@ export class Company {
         city: city,
         postal_code: postal_code,
         country: country,
+        customer_address: customer_address,
       },
     ];
   }
@@ -83,7 +84,8 @@ class AddCompaniesApi {
       company.street,
       company.city,
       company.postal_code,
-      company.country
+      company.country,
+      company.customer_address,
     );
   }
 
@@ -104,6 +106,27 @@ class AddCompaniesApi {
     } else {
       console.error("Invalid API response:", company);
       return null;
+    }
+  }
+
+  async updateCompany(id, updatedCompany) {
+    const endpoint =
+      "https://app.idfuse.fr/api/crm/company/${id}?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78";
+    try {
+      console.log(`Mise à jour de l'entreprise avec l'identifiant ${id}`);
+      const response = await this.fetchFromApi(endpoint, "PUT", updatedCompany);
+
+      if (response.ok) {
+        console.log("Entreprise mise à jour avec succès");
+      } else {
+        throw new Error(
+          "Erreur lors de la mise à jour de l'entreprise. Statut de la réponse : " +
+            response.status
+        );
+      }
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour de l'entreprise :", error);
+      throw error;
     }
   }
 }

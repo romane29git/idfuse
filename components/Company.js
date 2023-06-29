@@ -180,12 +180,13 @@ const Company = ({ route }) => {
           <Text style={styles.text}>
             Numéro de compte : {company.account_number}
           </Text>
-          {company && company.address && (
+          {company && (company.address || company.address2) && (
             <TouchableOpacity onPress={() => handleAddress(company.address)}>
-              <Text style={styles.text}>Adresse : {company.address}</Text>
+              <Text style={styles.text}>
+                Adresse :{company.address ? company.address : company.address2}
+              </Text>
             </TouchableOpacity>
           )}
-          <Text style={styles.text}>{company.nb_contacts} contact(s)</Text>
         </>
       ) : (
         <Text>Loading company data...</Text>

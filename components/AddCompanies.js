@@ -13,6 +13,7 @@ const AddCompanies = () => {
     city: "",
     postal_code: "",
     country: "",
+    cusstomer_address: "",
   });
 
   const fetchData = async () => {
@@ -28,12 +29,6 @@ const AddCompanies = () => {
     try {
       const { name, street, city, postal_code, country } = newCompany;
 
-      // Vérifier que le champ "name" n'est pas vide
-      if (name === "") {
-        console.error("Le champ 'Nom de l'entreprise' est obligatoire.");
-        return;
-      }
-
       const companyData = {
         name: name,
         addresses: [
@@ -42,6 +37,7 @@ const AddCompanies = () => {
             city: city,
             postal_code: postal_code,
             country: country,
+            customer_address: street+", "+city,
           },
         ],
       };
@@ -50,6 +46,15 @@ const AddCompanies = () => {
 
       // Appeler la méthode pour ajouter une entreprise
       await addCompany(companyData);
+
+      // // Réinitialiser les valeurs des champs de saisie
+      // setNewCompany({
+      //   name: "",
+      //   street: "",
+      //   city: "",
+      //   postal_code: "",
+      //   country: "",
+      // });
 
       // Rafrtaîchir la liste des entreprises
       fetchData();
@@ -73,7 +78,7 @@ const AddCompanies = () => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Adresse"
+        placeholder="Rue"
         value={newCompany.street}
         onChangeText={(text) =>
           setNewCompany({
@@ -85,7 +90,7 @@ const AddCompanies = () => {
 
       <TextInput
         style={styles.input}
-        placeholder="Adresse"
+        placeholder="Ville"
         value={newCompany.city}
         onChangeText={(text) =>
           setNewCompany({
@@ -97,7 +102,7 @@ const AddCompanies = () => {
 
       <TextInput
         style={styles.input}
-        placeholder="Adresse"
+        placeholder="Code postal"
         value={newCompany.postal_code}
         onChangeText={(text) =>
           setNewCompany({
@@ -109,7 +114,7 @@ const AddCompanies = () => {
 
       <TextInput
         style={styles.input}
-        placeholder="Adresse"
+        placeholder="Pays"
         value={newCompany.country}
         onChangeText={(text) =>
           setNewCompany({
