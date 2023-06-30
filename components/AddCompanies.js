@@ -17,6 +17,10 @@ const AddCompanies = () => {
     customer_address: "",
     company_status: "",
     registration_number: "",
+    solution_crm: "",
+    effectif: "",
+    secteur: "",
+    produit: "",
   });
   const [isChecked, setChecked] = useState(false);
 
@@ -47,6 +51,10 @@ const AddCompanies = () => {
         country,
         company_status,
         registration_number,
+        solution_crm,
+        effectif,
+        secteur,
+        produit,
       } = newCompany;
 
       const companyData = {
@@ -60,8 +68,12 @@ const AddCompanies = () => {
             customer_address: street + ", " + city,
           },
         ],
-        statut: isChecked ? "customer" : "cold prospect",
+        company_status: isChecked ? "customer" : "cold prospect",
         registration_number: registration_number,
+        solution_crm: solution_crm,
+        effectif: effectif,
+        secteur: secteur,
+        produit: produit,
       };
 
       console.log("Données de l'entreprise :", companyData);
@@ -164,6 +176,54 @@ const AddCompanies = () => {
           setNewCompany({
             ...newCompany,
             registration_number: text,
+          })
+        }
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Effectif de l'entreprise"
+        value={newCompany.effectif}
+        onChangeText={(text) =>
+          setNewCompany({
+            ...newCompany,
+            effectif: text,
+          })
+        }
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Produits"
+        value={newCompany.produit}
+        onChangeText={(text) =>
+          setNewCompany({
+            ...newCompany,
+            produit: text,
+          })
+        }
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Secteur d'acticité"
+        value={newCompany.secteur}
+        onChangeText={(text) =>
+          setNewCompany({
+            ...newCompany,
+            secteur: text,
+          })
+        }
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Solution CRM actuelle"
+        value={newCompany.solution_crm}
+        onChangeText={(text) =>
+          setNewCompany({
+            ...newCompany,
+            solution_crm: text,
           })
         }
       />

@@ -14,7 +14,8 @@ export class Company {
     secteur,
     company_status,
     produit,
-    registration_number
+    registration_number, 
+    solution_crm
   ) {
     this.id = id;
     this.name = name;
@@ -32,6 +33,7 @@ export class Company {
     this.company_status = company_status;
     this.secteur = secteur;
     this.registration_number = registration_number;
+    this.solution_crm = solution_crm;
   }
 }
 
@@ -109,6 +111,7 @@ class AddCompaniesApi {
       company["Secteur activite"],
       company.company_status,
       company.registration_number,
+      company['Solution CRM actuelle'],
     );
   }
 
