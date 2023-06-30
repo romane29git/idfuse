@@ -183,7 +183,7 @@ const Company = ({ route }) => {
           {company && (company.address || company.address2) && (
             <TouchableOpacity onPress={() => handleAddress(company.address)}>
               <Text style={styles.text}>
-                Adresse :{company.address ? company.address : company.address2}
+                Adresse : {company.address ? company.address : company.address2}
               </Text>
             </TouchableOpacity>
           )}

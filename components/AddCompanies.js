@@ -4,6 +4,7 @@ import { companiesApiInstance, fetchCompanies } from "../api/addCompaniesApi";
 import addCompany from "../api/addCompaniesApi";
 import styles from "../theme/styles";
 import Button from "./Button";
+import Checkbox from "expo-checkbox";
 
 const AddCompanies = () => {
   const [companies, setCompanies] = useState([]);
@@ -13,8 +14,11 @@ const AddCompanies = () => {
     city: "",
     postal_code: "",
     country: "",
-    cusstomer_address: "",
+    customer_address: "",
+    company_status: "",
+    registration_number: "",
   });
+  const [isChecked, setChecked] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -25,9 +29,25 @@ const AddCompanies = () => {
     }
   };
 
+  const handleCheckboxChange = () => {
+    if (isChecked == true) {
+      setChecked(false);
+    } else {
+      setChecked(true);
+    }
+  };
+
   const handleAddCompany = async () => {
     try {
-      const { name, street, city, postal_code, country } = newCompany;
+      const {
+        name,
+        street,
+        city,
+        postal_code,
+        country,
+        company_status,
+        registration_number,
+      } = newCompany;
 
       const companyData = {
         name: name,
@@ -37,9 +57,11 @@ const AddCompanies = () => {
             city: city,
             postal_code: postal_code,
             country: country,
-            customer_address: street+", "+city,
+            customer_address: street + ", " + city,
           },
         ],
+        statut: isChecked ? "customer" : "cold prospect",
+        registration_number: registration_number,
       };
 
       console.log("Données de l'entreprise :", companyData);
@@ -120,6 +142,28 @@ const AddCompanies = () => {
           setNewCompany({
             ...newCompany,
             country: text,
+          })
+        }
+      />
+
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Checkbox
+          style={styles.checkbox}
+          value={isChecked}
+          onValueChange={handleCheckboxChange}
+          color={isChecked ? "#E9F" : undefined}
+        />
+        <Text>Client</Text>
+      </View>
+
+      <TextInput
+        style={styles.input}
+        placeholder="N° SIREN"
+        value={newCompany.registration_number}
+        onChangeText={(text) =>
+          setNewCompany({
+            ...newCompany,
+            registration_number: text,
           })
         }
       />
