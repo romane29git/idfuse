@@ -1,4 +1,4 @@
-import { Text, View, TextInput } from "react-native";
+import { Text, View, TextInput, ScrollView } from "react-native";
 import React, { useState, useEffect } from "react";
 import { companiesApiInstance, fetchCompanies } from "../api/addCompaniesApi";
 import addCompany from "../api/addCompaniesApi";
@@ -98,7 +98,7 @@ const AddCompanies = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <TextInput
         style={styles.input}
         placeholder="Nom de l'entreprise"
@@ -237,7 +237,7 @@ const AddCompanies = () => {
           <Text key={company.id}>{company.name}</Text>
         ))}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

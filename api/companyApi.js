@@ -64,8 +64,23 @@ class CompanyApi {
             return {
               status: invoice.status,
               invoice_date: invoice.invoice_date,
-              number : invoice.number,
+              number: invoice.number,
               amount: invoice.amount,
+            };
+          })
+        : [],
+      timeline: companyData.company.timeline
+        ? companyData.company.timeline.map((timeline) => {
+            return {
+              name: timeline.name,
+              duration: timeline.duration,
+              type_event: timeline.type_event,
+              event_type: timeline.event_type,
+              first_name: timeline.first_name,
+              last_name: timeline.last_name,
+              date_start: timeline.date_start,
+              createdat: timeline.createdat,
+              comments_note: timeline.comments_note,
             };
           })
         : [],
