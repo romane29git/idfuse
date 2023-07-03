@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 const RootTabNavigator = () => {
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#AC6DF4" />
+      <StatusBar barStyle="light-content" backgroundColor="#5fabfe" />
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -30,7 +30,7 @@ const RootTabNavigator = () => {
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: "#AC6DF4",
+          tabBarActiveTintColor: "#5fabfe",
           tabBarInactiveTintColor: "gray",
           headerShown: false,
         })}
