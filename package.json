@@ -1,11 +1,10 @@
 {
   "name": "firstapp",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
@@ -13,17 +12,29 @@
     "@react-native-community/checkbox": "^0.5.16",
     "@react-native-mapbox-gl/maps": "^8.6.0-beta.0",
     "@react-navigation/bottom-tabs": "^6.5.8",
+<<<<<<< HEAD
+=======
+    "@react-navigation/core": "^3.7.9",
+>>>>>>> 7b1e3a51ca351c8f31107792d43c0f0cc0ecfdd2
     "@react-navigation/material-top-tabs": "^6.6.3",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@react-navigation/stack": "^6.3.17",
+<<<<<<< HEAD
+=======
+    "appcenter": "4.4.5",
+    "appcenter-analytics": "4.4.5",
+    "appcenter-crashes": "4.4.5",
+>>>>>>> 7b1e3a51ca351c8f31107792d43c0f0cc0ecfdd2
     "axios": "^1.4.0",
-    "expo": "^48.0.19",
+    "expo": "^49.0.0",
     "expo-checkbox": "~2.3.1",
+    "expo-splash-screen": "^0.20.4",
     "expo-status-bar": "~1.4.4",
     "moment": "^2.29.4",
-    "react": "18.2.0",
-    "react-native": "0.71.3",
+    "react": "^16.14.0",
+    "react-native": "^0.72.1",
+    "react-native-code-push": "^8.0.2",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-maps": "^1.7.1",
@@ -38,7 +49,11 @@
     "react-navigation-hooks": "^1.1.0"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@babel/core": "^7.22.8"
+=======
+    "@babel/core": "^7.22.6"
+>>>>>>> 7b1e3a51ca351c8f31107792d43c0f0cc0ecfdd2
   },
   "private": true
 }
