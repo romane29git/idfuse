@@ -1,12 +1,12 @@
 import { Text, View, TextInput, ScrollView } from "react-native";
 import React, { useState, useEffect } from "react";
 import { companiesApiInstance, fetchCompanies } from "../api/addCompaniesApi";
-import addCompany from "../api/addCompaniesApi";
+import editCompany from "../api/editCompanyApi";
 import styles from "../theme/styles";
 import Button from "./Button";
 import Checkbox from "expo-checkbox";
 
-const AddCompanies = () => {
+const EditCompany = () => {
   const [companies, setCompanies] = useState([]);
   const [newCompany, setNewCompany] = useState({
     name: "",
@@ -41,7 +41,7 @@ const AddCompanies = () => {
     }
   };
 
-  const handleAddCompany = async () => {
+  const handleEditCompany = async () => {
     try {
       const {
         name,
@@ -78,7 +78,7 @@ const AddCompanies = () => {
       console.log("Données de l'entreprise :", companyData);
 
       // Appeler la méthode pour ajouter une entreprise
-      await addCompany(companyData);
+      await editCompany(companyData);
 
       // // Réinitialiser les valeurs des champs de saisie
       // setNewCompany({
@@ -227,7 +227,7 @@ const AddCompanies = () => {
         }
       />
 
-      <Button mode="outlined" onPress={handleAddCompany}>
+      <Button mode="outlined" onPress={handleEditCompany}>
         Ajouter
       </Button>
 
@@ -240,4 +240,4 @@ const AddCompanies = () => {
   );
 };
 
-export default AddCompanies;
+export default EditCompany;
