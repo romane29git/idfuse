@@ -1,4 +1,5 @@
-const rootEndpoint = `https://app.idfuse.fr/api/crm/company/24?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78`;
+const rootEndpoint =
+  "https://app.idfuse.fr/api/crm/company/{id}?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78";
 
 export class Company {
   constructor(
@@ -27,138 +28,33 @@ export class Company {
         customer_address: customer_address,
       },
     ];
-    this.produit = produit;
-    this.effectif = effectif;
-    this.company_status = company_status;
-    this.secteur = secteur;
-    this.registration_number = registration_number;
-    this.solution_crm = solution_crm;
+    // ...
   }
 }
 
-export default async function editCompany(company) {
-  try {
-    console.log("Données de l'entreprise à modifier :", company);
+export async function editCompanyApi({ id, name, street, city, country }) {
+  const endpoint = rootEndpoint.replace("{id}", id);
 
-    const response = await fetch(rootEndpoint, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        name: "edit_name",
-        street: "edit_street",
-        city: "edit_city",
-        country: "edit_country",
-      }),
-    });
-
-    if (response.ok) {
-      console.log("Entreprise ajoutée avec succès");
-    } else {
-      throw new Error(
-        "Erreur lors de l'ajout de l'entreprise. Statut de la réponse : " +
-          response.status
-      );
-    }
-  } catch (error) {
-    console.error("Erreur lors de l'ajout de l'entreprise :", error);
-    throw error;
-  }
-}
-
-class EditCompanyApi {
-  async fetchCompanies() {
-    const companies = await this.fetchFromApi(rootEndpoint);
-
-    if (companies && Array.isArray(companies)) {
-      return this.createCompanies(companies);
-    } else {
-      console.error("Invalid API response:", companies);
-      return [];
-    }
-  }
-
-  async fetchFromApi(endpoint, method = "POST", body = null) {
-    console.log(`Fetching API endpoint: ${endpoint}`);
-    try {
-      const options = {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+  const response = await fetch(endpoint, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      addresses: [
+        {
+          id: 24, // ID de l'adresse à modifier
+          street,
+          city,
+          country,
         },
-        body: body ? JSON.stringify(body) : null,
-      };
+      ],
+    }),
+  });
 
-      const response = await fetch(endpoint, options);
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Erreur lors de la récupération des entreprises :", error);
-      throw error;
-    }
-  }
-
-  createCompany(company) {
-    return new Company(
-      company.id,
-      company.name,
-      company.street,
-      company.city,
-      company.postal_code,
-      company.country,
-      company.customer_address,
-      company.Produits,
-      company["Effectif entreprise"],
-      company["Secteur activite"],
-      company.company_status,
-      company.registration_number,
-      company["Solution CRM actuelle"]
-    );
-  }
-
-  createCompanies(companies) {
-    if (!Array.isArray(companies)) {
-      console.error("Invalid companies data");
-      return [];
-    }
-
-    return companies.map((company) => this.createCompany(company));
-  }
-
-  async getCompanyById(id) {
-    const endpoint = `${rootEndpoint}&id=${id}`;
-    const company = await this.fetchFromApi(endpoint);
-    if (company) {
-      return this.createCompany(company);
-    } else {
-      console.error("Invalid API response:", company);
-      return null;
-    }
-  }
-
-  async updateCompany(id, updatedCompany) {
-    const endpoint =
-      "https://app.idfuse.fr/api/crm/company/${id}?api_token=ac781e5381ea80907e7f3b0aa5156cbc8eebf82957bf69c939829d9ee619ca78";
-    try {
-      console.log(`Mise à jour de l'entreprise avec l'identifiant ${id}`);
-      const response = await this.fetchFromApi(endpoint, "PUT", updatedCompany);
-
-      if (response.ok) {
-        console.log("Entreprise mise à jour avec succès");
-      } else {
-        throw new Error(
-          "Erreur lors de la mise à jour de l'entreprise. Statut de la réponse : " +
-            response.status
-        );
-      }
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour de l'entreprise :", error);
-      throw error;
-    }
+  if (!response.ok) {
+    throw new Error("La modification de l'entreprise a échoué.");
   }
 }
-
-export const companiesApiInstance = new EditCompanyApi();
