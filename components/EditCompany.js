@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,26 +7,47 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { editCompanyApi } from "../api/editCompanyApi";
+import { Company, editCompanyApi } from "../api/editCompanyApi";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "react-native";
+import CompanyApi from "../api/companyApi";
+
+const companyApi = new CompanyApi();
 
 const EditCompany = ({ route }) => {
   const [name, setName] = useState("");
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [company, setCompany] = useState({});
   const navigation = useNavigation();
   const idCompany = route.params.id;
 
+  useEffect(() => {
+    async function fetchCompanyDetails() {
+      try {
+        const fetchedCompany = await companyApi.getCompanyById(idCompany);
+        setCompany(fetchedCompany);
+      } catch (error) {
+        console.log("Error fetching company data:", error);
+      }
+    }
+
+    fetchCompanyDetails();
+  }, [idCompany]);
+
+
   const handleSubmit = async () => {
     try {
+      console.log("id adresse : ", company.idAddress);
+
       await editCompanyApi({
         id: idCompany,
         name,
         street,
         city,
         country,
+        idAddress : company.idAddress,
       });
       console.log("modifée");
     } catch (error) {

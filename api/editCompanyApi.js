@@ -31,8 +31,9 @@ export class Company {
   }
 }
 
-export async function editCompanyApi({ id, name, street, city, country }) {
+export async function editCompanyApi({ id, name, street, city, country, idAddress }) {
   const endpoint = rootEndpoint.replace("{id}", id);
+  console.log("idAddress : ", idAddress);
 
   const response = await fetch(endpoint, {
     method: "PUT",
@@ -44,7 +45,7 @@ export async function editCompanyApi({ id, name, street, city, country }) {
       name,
       addresses: [
         {
-          id: 71, // ID de l'adresse à modifier
+          id: idAddress, // ID de l'adresse à modifier
           street,
           city,
           country,

@@ -38,6 +38,11 @@ class CompanyApi {
         companyData.company.addresses.length > 0
           ? companyData.company.addresses[0].customer_address
           : "",
+      idAddress:
+        companyData.company.addresses &&
+        companyData.company.addresses.length > 0
+          ? companyData.company.addresses[0].id
+          : "",
       nb_contacts: companyData.company.cntContacts || 0,
       contacts: companyData.company.contacts
         ? companyData.company.contacts.map((contact) => {

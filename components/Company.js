@@ -12,7 +12,6 @@ import { Modal } from "react-native";
 import Map from "../components/Map";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
-
 import CompanyApi from "../api/companyApi";
 
 const companyApi = new CompanyApi();
