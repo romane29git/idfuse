@@ -13,7 +13,7 @@ export class Company {
     customer_address,
     effectif,
     secteur,
-    company_status,
+    status,
     produit,
     registration_number,
     solution_crm
@@ -30,6 +30,7 @@ export class Company {
         customer_address: customer_address,
       },
     ];
+    this.status = status;
   }
 }
 
@@ -41,6 +42,7 @@ export async function editCompanyApi({
   city,
   country,
   idAddress,
+  status,
 }) {
   const endpoint = rootEndpoint.replace("{id}", id);
 
@@ -60,6 +62,7 @@ export async function editCompanyApi({
           city,
           country,
           customer_address: street_number + " " + street + ", " + city,
+          status,
         },
       ],
     }),
