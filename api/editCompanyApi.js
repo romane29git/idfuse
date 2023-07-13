@@ -45,7 +45,7 @@ export async function editCompanyApi({ id, name, street, city, country }) {
       name,
       addresses: [
         {
-          id: 24, // ID de l'adresse à modifier
+          id: 71, // ID de l'adresse à modifier
           street,
           city,
           country,
