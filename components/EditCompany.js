@@ -29,6 +29,14 @@ const EditCompany = ({ route }) => {
       try {
         const fetchedCompany = await companyApi.getCompanyById(idCompany);
         setCompany(fetchedCompany);
+
+        console.log(fetchedCompany);
+
+        setName(fetchedCompany.name);
+        setStreet(fetchedCompany.street);
+        setStreetNumber(fetchedCompany.street_number);
+        setCity(fetchedCompany.city);
+        setCountry(fetchedCompany.country);
       } catch (error) {
         console.log("Error fetching company data:", error);
       }

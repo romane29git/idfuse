@@ -43,6 +43,21 @@ class CompanyApi {
         companyData.company.addresses.length > 0
           ? companyData.company.addresses[0].id
           : "",
+      street_number:
+        companyData.company.addresses &&
+        companyData.company.addresses.length > 0
+          ? companyData.company.addresses[0].street_number
+          : "",
+      street:
+        companyData.company.addresses &&
+        companyData.company.addresses.length > 0
+          ? companyData.company.addresses[0].street
+          : "",
+      country:
+        companyData.company.addresses &&
+        companyData.company.addresses.length > 0
+          ? companyData.company.addresses[0].country
+          : "",
       nb_contacts: companyData.company.cntContacts || 0,
       contacts: companyData.company.contacts
         ? companyData.company.contacts.map((contact) => {

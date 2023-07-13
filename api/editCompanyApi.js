@@ -23,7 +23,7 @@ export class Company {
     this.addresses = [
       {
         street: street,
-        street_number : street_number,
+        street_number: street_number,
         city: city,
         postal_code: postal_code,
         country: country,
@@ -33,7 +33,15 @@ export class Company {
   }
 }
 
-export async function editCompanyApi({ id, name, street_number, street, city, country, idAddress }) {
+export async function editCompanyApi({
+  id,
+  name,
+  street_number,
+  street,
+  city,
+  country,
+  idAddress,
+}) {
   const endpoint = rootEndpoint.replace("{id}", id);
 
   const response = await fetch(endpoint, {
@@ -51,6 +59,7 @@ export async function editCompanyApi({ id, name, street_number, street, city, co
           street,
           city,
           country,
+          customer_address: street_number + " " + street + ", " + city,
         },
       ],
     }),
