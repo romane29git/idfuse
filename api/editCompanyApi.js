@@ -28,7 +28,6 @@ export class Company {
         customer_address: customer_address,
       },
     ];
-    // ...
   }
 }
 

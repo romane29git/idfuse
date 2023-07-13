@@ -19,18 +19,16 @@ const EditCompany = ({ route }) => {
   const navigation = useNavigation();
   const idCompany = route.params.id;
 
-  console.log("id route : ", idCompany);
-
   const handleSubmit = async () => {
     try {
       await editCompanyApi({
-        id: "24",
+        id: idCompany,
         name,
         street,
         city,
         country,
       });
-      console.log("ok");
+      console.log("modifée");
     } catch (error) {
       console.error(
         "Une erreur s'est produite lors de la modification de l'entreprise :",
@@ -58,7 +56,7 @@ const EditCompany = ({ route }) => {
       <Button title="Modifier" onPress={handleSubmit} />
     </View>
   );
-}
+};
 
 export default EditCompany;
 
