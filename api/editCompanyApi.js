@@ -5,6 +5,7 @@ export class Company {
   constructor(
     id,
     name,
+    street_number,
     street,
     city,
     postal_code,
@@ -22,6 +23,7 @@ export class Company {
     this.addresses = [
       {
         street: street,
+        street_number : street_number,
         city: city,
         postal_code: postal_code,
         country: country,
@@ -31,9 +33,8 @@ export class Company {
   }
 }
 
-export async function editCompanyApi({ id, name, street, city, country, idAddress }) {
+export async function editCompanyApi({ id, name, street_number, street, city, country, idAddress }) {
   const endpoint = rootEndpoint.replace("{id}", id);
-  console.log("idAddress : ", idAddress);
 
   const response = await fetch(endpoint, {
     method: "PUT",
@@ -45,7 +46,8 @@ export async function editCompanyApi({ id, name, street, city, country, idAddres
       name,
       addresses: [
         {
-          id: idAddress, // ID de l'adresse à modifier
+          id: idAddress,
+          street_number,
           street,
           city,
           country,

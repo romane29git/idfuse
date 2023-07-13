@@ -17,6 +17,7 @@ const companyApi = new CompanyApi();
 const EditCompany = ({ route }) => {
   const [name, setName] = useState("");
   const [street, setStreet] = useState("");
+  const [street_number, setStreetNumber] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [company, setCompany] = useState({});
@@ -39,17 +40,15 @@ const EditCompany = ({ route }) => {
 
   const handleSubmit = async () => {
     try {
-      console.log("id adresse : ", company.idAddress);
-
       await editCompanyApi({
         id: idCompany,
         name,
+        street_number,
         street,
         city,
         country,
         idAddress : company.idAddress,
       });
-      console.log("modifée");
     } catch (error) {
       console.error(
         "Une erreur s'est produite lors de la modification de l'entreprise :",
@@ -71,6 +70,7 @@ const EditCompany = ({ route }) => {
       </TouchableOpacity>
       <Text>Modifier l'entreprise</Text>
       <TextInput placeholder="Nom" value={name} onChangeText={setName} />
+      <TextInput placeholder="Numéro" value={street_number} onChangeText={setStreetNumber} />
       <TextInput placeholder="Rue" value={street} onChangeText={setStreet} />
       <TextInput placeholder="Ville" value={city} onChangeText={setCity} />
       <TextInput placeholder="Pays" value={country} onChangeText={setCountry} />
