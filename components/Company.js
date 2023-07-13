@@ -45,6 +45,10 @@ const Company = ({ route }) => {
     setIsMapVisible(true);
   };
 
+  const handleEdit = (company) => {
+    navigation.navigate("EditCompany", {id: company.id})
+  };
+
   const BubbleIcon = ({ iconName }) => {
     return (
       <View style={styles.bubble}>
@@ -227,6 +231,9 @@ const Company = ({ route }) => {
       {company ? (
         <>
           <Text style={styles.sectionTitle}>{company.name}</Text>
+          <TouchableOpacity style={styles.button} onPress={() => handleEdit(company)}>
+            <Text style={styles.buttonText}>Modifier</Text>
+          </TouchableOpacity>
           <Text style={styles.text}>
             {company.status === "customer" ? (
               <View style={styles.customer}>
@@ -461,5 +468,18 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: "row",
+  },
+  button: {
+    backgroundColor: "blue",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginTop: 16,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

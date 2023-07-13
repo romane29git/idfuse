@@ -1,12 +1,25 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { editCompanyApi } from "../api/editCompanyApi";
+import { useNavigation } from "@react-navigation/native";
+import { Image } from "react-native";
 
-function EditCompany() {
+const EditCompany = ({ route }) => {
   const [name, setName] = useState("");
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const navigation = useNavigation();
+  const idCompany = route.params.id;
+
+  console.log("id route : ", idCompany);
 
   const handleSubmit = async () => {
     try {
@@ -27,7 +40,16 @@ function EditCompany() {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => navigation.goBack()}
+      >
+        <Image
+          source={require("../assets/arrow_back.png")}
+          style={styles.backArrow}
+        />
+      </TouchableOpacity>
       <Text>Modifier l'entreprise</Text>
       <TextInput placeholder="Nom" value={name} onChangeText={setName} />
       <TextInput placeholder="Rue" value={street} onChangeText={setStreet} />
@@ -39,3 +61,22 @@ function EditCompany() {
 }
 
 export default EditCompany;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  buttonContainer: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  backArrow: {
+    width: 20,
+    height: 20,
+    marginRight: 5,
+  },
+});
