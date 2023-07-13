@@ -86,6 +86,7 @@ class CompanyApi {
               invoice_date: invoice.invoice_date,
               number: invoice.number,
               amount: invoice.amount,
+              paid: invoice.paid,
             };
           })
         : [],

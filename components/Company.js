@@ -45,7 +45,7 @@ const Company = ({ route }) => {
   };
 
   const handleEdit = (company) => {
-    navigation.navigate("EditCompany", {id: company.id})
+    navigation.navigate("EditCompany", { id: company.id });
   };
 
   const BubbleIcon = ({ iconName }) => {
@@ -124,6 +124,14 @@ const Company = ({ route }) => {
               <TouchableOpacity>
                 <Icon name={"file-pdf"} size={28} color={"red"} />
               </TouchableOpacity>
+              <View style={styles.paid}>
+                <Icon
+                  name={invoice.paid === 1 ? "check-circle" : "times-circle"}
+                  size={18}
+                  color={invoice.paid === 1 ? "#6bf350" : "#f35050"}
+                />
+                <Text>{invoice.paid === 1 ? " Payée" : " Non payée"}</Text>
+              </View>
             </View>
           ))
         ) : (
@@ -230,7 +238,10 @@ const Company = ({ route }) => {
       {company ? (
         <>
           <Text style={styles.sectionTitle}>{company.name}</Text>
-          <TouchableOpacity style={styles.button} onPress={() => handleEdit(company)}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleEdit(company)}
+          >
             <Text style={styles.buttonText}>Modifier</Text>
           </TouchableOpacity>
           <Text style={styles.text}>
@@ -480,5 +491,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  paid: {
+    justifyContent: "flex-end",
+    flexDirection: "row",
   },
 });
