@@ -32,8 +32,6 @@ const EditCompany = ({ route }) => {
         const fetchedCompany = await companyApi.getCompanyById(idCompany);
         setCompany(fetchedCompany);
 
-        console.log(fetchedCompany);
-
         setName(fetchedCompany.name);
         setStreet(fetchedCompany.street);
         setStreetNumber(fetchedCompany.street_number);
