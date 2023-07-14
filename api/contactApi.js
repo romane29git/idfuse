@@ -19,7 +19,6 @@ class ContactApi {
   createContact(contactData) {
     const contact = {
       id: contactData.contact.id,
-      role: contactData.contact.role,
       first_name: contactData.contact.first_name,
       last_name: contactData.contact.last_name,
 
