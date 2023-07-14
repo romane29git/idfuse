@@ -7,6 +7,7 @@ import Contact from "../components/Contact";
 import Opportunity from "../components/Opportunity";
 import Map from "../components/Map";
 import EditCompany from "../components/EditCompany";
+import EditContact from "../components/EditContact";
 
 const ContactsStack = createStackNavigator();
 
@@ -45,6 +46,11 @@ const ContactsStackNavigator = () => {
         name="EditCompany"
         component={EditCompany}
         options={{ title: "EditCompany", headerShown: false }}
+      />
+      <ContactsStack.Screen
+        name="EditContact"
+        component={EditContact}
+        options={{ title: "EditContact", headerShown: false }}
       />
     </ContactsStack.Navigator>
   );
